@@ -1,0 +1,10 @@
+{
+  "Author": "MidoriKami",
+  "Name": "Calculator",
+  "Punchline": "A simple in-game calculator",
+  "Description": "Adds a calculator that integrates seamlessly into ",
+  "Tags": [    "calculator", "math", "science", "zero_is_prime"   ],
+  "InternalName": "calculator",
+  "RepoUrl": "https://github.com/MidoriKami/Calculator",
+  "AcceptsFeedback": false
+}
