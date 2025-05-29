@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Globalization;
+using System.Numerics;
 using Dalamud.Game.Addon.Events;
 using Dalamud.Game.Command;
 using Dalamud.IoC;
@@ -7,6 +8,7 @@ using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
 using KamiToolKit.Addon;
+using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
 using KamiToolKit.Nodes.ComponentNodes;
 
@@ -31,6 +33,7 @@ public sealed class CalculatorPlugin : IDalamudPlugin {
         // For this demo, we will open the calculator window as soon as the plugin loads
         OpenCalculator();
 
+        // We will also add a chat command to open this window
         Services.CommandManager.AddHandler("/calc", new CommandInfo(OnCommand) {
             HelpMessage = "Open Calculator Window",
         });
@@ -57,11 +60,71 @@ public sealed class CalculatorPlugin : IDalamudPlugin {
 
 // A simple static class for storing any dalamud services that we might want, and for storing any objects that we'll need
 public class Services {
-    [PluginService] public static IFramework Framework { get; set; } = null!;
     [PluginService] public static ICommandManager CommandManager { get; set; } = null!;
     
     public static NativeController NativeController { get; set; } = null!;
     public static AddonCalculator AddonCalculator { get; set; } = null!;
+}
+
+// Example of creating a custom node that we can use together instead of always having to manage each part
+public class TextBox : ResNode {
+
+    private readonly BorderNineGridNode boxOutline;
+    private readonly TextNode resultText;
+
+    public TextBox() {
+        boxOutline = new BorderNineGridNode {
+            IsVisible = true,
+        };
+        
+        Services.NativeController.AttachToNode(boxOutline, this, NodePosition.AsLastChild);
+
+        resultText = new TextNode {
+            IsVisible = true, 
+            AlignmentType = AlignmentType.BottomRight,
+            FontSize = 40,
+        };
+        
+        Services.NativeController.AttachToNode(resultText, this, NodePosition.AsLastChild);
+    }
+
+    public string Value {
+        get => resultText.Text.ToString();
+        set => resultText.Text = value;
+    }
+    
+    // Override Width property to have it set the width of our individual parts
+    public override float Width {
+        get => base.Width;
+        set {
+            base.Width = value;
+            boxOutline.Width = value;
+            resultText.Width = value - 48.0f;
+            resultText.X = 24.0f;
+        }
+    }
+
+    // Override Height property to have it set the height of our individual parts
+    public override float Height {
+        get => base.Height;
+        set {
+            base.Height = value;
+            boxOutline.Height = value;
+            resultText.Height = value - 48.0f;
+            resultText.Y = 24.0f;
+        }
+    }
+
+    // Whenever we inherit a node and add additional nodes,
+    // we will be responsible for calling dispose on those nodes
+    protected override void Dispose(bool disposing) {
+        if (disposing) {
+            boxOutline.Dispose();
+            resultText.Dispose();
+            
+            base.Dispose(disposing);
+        }
+    }
 }
 
 
@@ -88,16 +151,15 @@ public class AddonCalculator : NativeAddon {
 
     private TextButtonNode? enter;
 
-    private BorderNineGridNode? box;
-    private TextNode? result;
+    private TextBox? textBox;
 
     private const float UnitSize = 65.0f;
     private const float FramePadding = 8.0f;
     private const float UnitPadding = 10.0f;
     private const float VerticalPadding = UnitPadding / 4.0f;
 
-    private int currentValue;
-    private int lastValue;
+    private float currentValue;
+    private float lastValue;
     private CurrentOperation currentOperation = CurrentOperation.None;
     
     // OnSetup is your entry-point to adding native elements to the window
@@ -136,15 +198,18 @@ public class AddonCalculator : NativeAddon {
         enter.AddEvent(AddonEventType.ButtonClick, () => {
             currentValue = currentOperation switch {
                 CurrentOperation.Add => currentValue + lastValue,
-                CurrentOperation.Subtract => currentValue - lastValue,
+                CurrentOperation.Subtract => lastValue - currentValue,
                 CurrentOperation.Multiply => currentValue * lastValue,
-                CurrentOperation.Divide => currentValue / lastValue,
+                CurrentOperation.Divide => lastValue / currentValue,
                 _ => currentValue,
             };
 
+            if (textBox is not null) {
+                textBox.Value = currentValue.ToString(CultureInfo.InvariantCulture);
+            }
+
             currentOperation = CurrentOperation.None;
         });
-        
         Services.NativeController.AttachToAddon(enter, this);
         
         xPos += enter.Width + UnitPadding;
@@ -163,7 +228,6 @@ public class AddonCalculator : NativeAddon {
                 currentOperation = CurrentOperation.Add;
             }
         });
-        
         Services.NativeController.AttachToAddon(add, this);
         
         xPos = FramePadding;
@@ -177,7 +241,6 @@ public class AddonCalculator : NativeAddon {
         };
         
         number1.AddEvent(AddonEventType.ButtonClick, () => EditNumber(1));
-        
         Services.NativeController.AttachToAddon(number1, this);
        
         xPos += number1.Width + UnitPadding;
@@ -190,7 +253,6 @@ public class AddonCalculator : NativeAddon {
         };
         
         number2.AddEvent(AddonEventType.ButtonClick, () => EditNumber(2));
-        
         Services.NativeController.AttachToAddon(number2, this);
 
         xPos += number2.Width + UnitPadding;
@@ -203,7 +265,6 @@ public class AddonCalculator : NativeAddon {
         };
         
         number3.AddEvent(AddonEventType.ButtonClick, () => EditNumber(3));
-        
         Services.NativeController.AttachToAddon(number3, this);
         
         xPos += number3.Width + UnitPadding;
@@ -222,7 +283,6 @@ public class AddonCalculator : NativeAddon {
                 currentOperation = CurrentOperation.Subtract;
             }
         });
-        
         Services.NativeController.AttachToAddon(subtract, this);
         
         xPos = FramePadding;
@@ -236,7 +296,6 @@ public class AddonCalculator : NativeAddon {
         };
         
         number4.AddEvent(AddonEventType.ButtonClick, () => EditNumber(4));
-        
         Services.NativeController.AttachToAddon(number4, this);
         
         xPos += number4.Width + UnitPadding;
@@ -249,7 +308,6 @@ public class AddonCalculator : NativeAddon {
         };
         
         number5.AddEvent(AddonEventType.ButtonClick, () => EditNumber(5));
-        
         Services.NativeController.AttachToAddon(number5, this);
         
         xPos += number5.Width + UnitPadding;
@@ -262,7 +320,6 @@ public class AddonCalculator : NativeAddon {
         };
         
         number6.AddEvent(AddonEventType.ButtonClick, () => EditNumber(6));
-        
         Services.NativeController.AttachToAddon(number6, this);
         
         xPos += number6.Width + UnitPadding;
@@ -281,7 +338,6 @@ public class AddonCalculator : NativeAddon {
                 currentOperation = CurrentOperation.Multiply;
             }
         });
-        
         Services.NativeController.AttachToAddon(multiply, this);
         
         xPos = FramePadding;
@@ -295,7 +351,6 @@ public class AddonCalculator : NativeAddon {
         };
         
         number7.AddEvent(AddonEventType.ButtonClick, () => EditNumber(7));
-        
         Services.NativeController.AttachToAddon(number7, this);
         
         xPos += number7.Width + UnitPadding;
@@ -308,7 +363,6 @@ public class AddonCalculator : NativeAddon {
         };
         
         number8.AddEvent(AddonEventType.ButtonClick, () => EditNumber(8));
-        
         Services.NativeController.AttachToAddon(number8, this);
         
         xPos += number8.Width + UnitPadding;
@@ -321,7 +375,6 @@ public class AddonCalculator : NativeAddon {
         };
         
         number9.AddEvent(AddonEventType.ButtonClick, () => EditNumber(9));
-        
         Services.NativeController.AttachToAddon(number9, this);
         
         xPos += number9.Width + UnitPadding;
@@ -340,49 +393,34 @@ public class AddonCalculator : NativeAddon {
                 currentOperation = CurrentOperation.Divide;
             }
         });
-        
         Services.NativeController.AttachToAddon(divide, this);
 
-        box = new BorderNineGridNode {
+        textBox = new TextBox {
             Position = new Vector2(FramePadding, FramePadding + addon->WindowHeaderCollisionNode->Height),
             Size = new Vector2(Size.X - FramePadding * 2.0f, yPos - addon->WindowHeaderCollisionNode->Y - FramePadding - UnitPadding * 2.0f),
             IsVisible = true,
+            Value = "0",
         };
         
-        Services.NativeController.AttachToAddon(box, this);
-
-        result = new TextNode {
-            Position = box.Position + new Vector2(FramePadding, FramePadding) * 2.5f, 
-            Size = box.Size - new Vector2(FramePadding * 1.25f, FramePadding) * 5.0f, 
-            Text = currentValue.ToString(),
-            IsVisible = true, 
-            AlignmentType = AlignmentType.BottomRight,
-            FontSize = 40,
-        };
-
-        Services.NativeController.AttachToAddon(result, this);
+        Services.NativeController.AttachToAddon(textBox, this);
     }
 
+    // OnHide is called when our window is about to close, but hasn't closed yet.
+    // If you need an event to trigger immediately before the window actually closes, use OnFinalize
     protected override unsafe void OnHide(AtkUnitBase* addon) {
-        if (result is null) return;
+        if (textBox is null) return;
         
         currentValue = 0;
-        result.Text = currentValue.ToString();
+        textBox.Value = currentValue.ToString(CultureInfo.InvariantCulture);
     }
 
-    protected override unsafe void OnUpdate(AtkUnitBase* addon) {
-        if (result is null) return;
-        
-        result.Text = currentValue.ToString();
-    }
-
-    private void EditNumber(int value) {
-        if (result is null) return;
+    private void EditNumber(float value) {
+        if (textBox is null) return;
         if (currentValue is 0 && value is 0) return;
     
         currentValue *= 10;
         currentValue += value;
-        result.Text = currentValue.ToString();
+        textBox.Value = currentValue.ToString(CultureInfo.InvariantCulture);
     }
 }
 
