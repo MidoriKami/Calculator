@@ -28,6 +28,7 @@ public sealed class CalculatorPlugin : IDalamudPlugin {
             InternalName = "Calculator",
             Title = "Calculator",
             Size = new Vector2(305.0f, 415.0f),
+            NativeController = Services.NativeController,
         };
         
         // For this demo, we will open the calculator window as soon as the plugin loads
@@ -55,7 +56,7 @@ public sealed class CalculatorPlugin : IDalamudPlugin {
 
     // Opens the calculator window, it is not safe to call this from any thread except the main thread
     private void OpenCalculator()
-        => Services.AddonCalculator.Open(Services.NativeController);
+        => Services.AddonCalculator.Open();
 }
 
 // A simple static class for storing any dalamud services that we might want, and for storing any objects that we'll need
@@ -184,7 +185,7 @@ public class AddonCalculator : NativeAddon {
         // IMPORTANT: Once attached, >> do not detach or dispose these nodes <<
         // When attaching the game will take ownership of the nodes and all associated data,
         // and will properly clean up when the addon is closed
-        Services.NativeController.AttachToAddon(number0, this);
+        NativeController.AttachToAddon(number0, this);
 
         xPos += number0.Width + UnitPadding;
         
@@ -210,7 +211,7 @@ public class AddonCalculator : NativeAddon {
 
             currentOperation = CurrentOperation.None;
         });
-        Services.NativeController.AttachToAddon(enter, this);
+        NativeController.AttachToAddon(enter, this);
         
         xPos += enter.Width + UnitPadding;
         
@@ -228,7 +229,7 @@ public class AddonCalculator : NativeAddon {
                 currentOperation = CurrentOperation.Add;
             }
         });
-        Services.NativeController.AttachToAddon(add, this);
+        NativeController.AttachToAddon(add, this);
         
         xPos = FramePadding;
         yPos -= VerticalPadding + UnitSize;
@@ -241,7 +242,7 @@ public class AddonCalculator : NativeAddon {
         };
         
         number1.AddEvent(AddonEventType.ButtonClick, () => EditNumber(1));
-        Services.NativeController.AttachToAddon(number1, this);
+        NativeController.AttachToAddon(number1, this);
        
         xPos += number1.Width + UnitPadding;
 
@@ -253,7 +254,7 @@ public class AddonCalculator : NativeAddon {
         };
         
         number2.AddEvent(AddonEventType.ButtonClick, () => EditNumber(2));
-        Services.NativeController.AttachToAddon(number2, this);
+        NativeController.AttachToAddon(number2, this);
 
         xPos += number2.Width + UnitPadding;
         
@@ -265,7 +266,7 @@ public class AddonCalculator : NativeAddon {
         };
         
         number3.AddEvent(AddonEventType.ButtonClick, () => EditNumber(3));
-        Services.NativeController.AttachToAddon(number3, this);
+        NativeController.AttachToAddon(number3, this);
         
         xPos += number3.Width + UnitPadding;
 
@@ -283,7 +284,7 @@ public class AddonCalculator : NativeAddon {
                 currentOperation = CurrentOperation.Subtract;
             }
         });
-        Services.NativeController.AttachToAddon(subtract, this);
+        NativeController.AttachToAddon(subtract, this);
         
         xPos = FramePadding;
         yPos -= VerticalPadding + UnitSize;
@@ -296,7 +297,7 @@ public class AddonCalculator : NativeAddon {
         };
         
         number4.AddEvent(AddonEventType.ButtonClick, () => EditNumber(4));
-        Services.NativeController.AttachToAddon(number4, this);
+        NativeController.AttachToAddon(number4, this);
         
         xPos += number4.Width + UnitPadding;
 
@@ -308,7 +309,7 @@ public class AddonCalculator : NativeAddon {
         };
         
         number5.AddEvent(AddonEventType.ButtonClick, () => EditNumber(5));
-        Services.NativeController.AttachToAddon(number5, this);
+        NativeController.AttachToAddon(number5, this);
         
         xPos += number5.Width + UnitPadding;
 
@@ -320,7 +321,7 @@ public class AddonCalculator : NativeAddon {
         };
         
         number6.AddEvent(AddonEventType.ButtonClick, () => EditNumber(6));
-        Services.NativeController.AttachToAddon(number6, this);
+        NativeController.AttachToAddon(number6, this);
         
         xPos += number6.Width + UnitPadding;
 
@@ -338,7 +339,7 @@ public class AddonCalculator : NativeAddon {
                 currentOperation = CurrentOperation.Multiply;
             }
         });
-        Services.NativeController.AttachToAddon(multiply, this);
+        NativeController.AttachToAddon(multiply, this);
         
         xPos = FramePadding;
         yPos -= VerticalPadding + UnitSize;
@@ -351,7 +352,7 @@ public class AddonCalculator : NativeAddon {
         };
         
         number7.AddEvent(AddonEventType.ButtonClick, () => EditNumber(7));
-        Services.NativeController.AttachToAddon(number7, this);
+        NativeController.AttachToAddon(number7, this);
         
         xPos += number7.Width + UnitPadding;
 
@@ -363,7 +364,7 @@ public class AddonCalculator : NativeAddon {
         };
         
         number8.AddEvent(AddonEventType.ButtonClick, () => EditNumber(8));
-        Services.NativeController.AttachToAddon(number8, this);
+        NativeController.AttachToAddon(number8, this);
         
         xPos += number8.Width + UnitPadding;
 
@@ -375,7 +376,7 @@ public class AddonCalculator : NativeAddon {
         };
         
         number9.AddEvent(AddonEventType.ButtonClick, () => EditNumber(9));
-        Services.NativeController.AttachToAddon(number9, this);
+        NativeController.AttachToAddon(number9, this);
         
         xPos += number9.Width + UnitPadding;
 
@@ -393,7 +394,7 @@ public class AddonCalculator : NativeAddon {
                 currentOperation = CurrentOperation.Divide;
             }
         });
-        Services.NativeController.AttachToAddon(divide, this);
+        NativeController.AttachToAddon(divide, this);
 
         textBox = new TextBox {
             Position = new Vector2(FramePadding, FramePadding + addon->WindowHeaderCollisionNode->Height),
@@ -402,7 +403,7 @@ public class AddonCalculator : NativeAddon {
             Value = "0",
         };
         
-        Services.NativeController.AttachToAddon(textBox, this);
+        NativeController.AttachToAddon(textBox, this);
     }
 
     // OnHide is called when our window is about to close, but hasn't closed yet.
