@@ -1,7 +1,9 @@
-﻿using System.Globalization;
+﻿using System.Drawing;
+using System.Globalization;
 using System.Numerics;
 using Dalamud.Game.Addon.Events;
 using Dalamud.Game.Command;
+using Dalamud.Interface;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
@@ -78,7 +80,7 @@ public class TextBox : ResNode {
             IsVisible = true,
         };
         
-        Services.NativeController.AttachNode(boxOutline, this, NodePosition.AsLastChild);
+        Services.NativeController.AttachNode(boxOutline, this);
 
         resultText = new TextNode {
             IsVisible = true, 
@@ -86,7 +88,7 @@ public class TextBox : ResNode {
             FontSize = 40,
         };
         
-        Services.NativeController.AttachNode(resultText, this, NodePosition.AsLastChild);
+        Services.NativeController.AttachNode(resultText, this);
     }
 
     public string Value {
