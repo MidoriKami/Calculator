@@ -7,8 +7,4 @@
     <ItemGroup>
         <ProjectReference Include="..\KamiToolKit\KamiToolKit.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Remove="DotNet.ReproducibleBuilds" />
-    </ItemGroup>
 </Project>
