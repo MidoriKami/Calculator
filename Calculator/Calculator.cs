@@ -40,7 +40,6 @@ public sealed class CalculatorPlugin : IDalamudPlugin {
 }
 
 public class AddonCalculator : NativeAddon {
-    private Vector2 StartPos => ContentStartPosition + new Vector2(8.0f);
     
     protected override unsafe void OnSetup(AtkUnitBase* addon) {
         
