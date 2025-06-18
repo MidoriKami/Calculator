@@ -175,7 +175,7 @@ public class AddonCalculator : NativeAddon {
             Label = "0",
         };
         
-        number0.AddEvent(AddonEventType.ButtonClick, () => EditNumber(0));
+        number0.AddEvent(AddonEventType.ButtonClick, _ => EditNumber(0));
 
         // Attach custom node to addon
         //
@@ -193,7 +193,7 @@ public class AddonCalculator : NativeAddon {
             Label = "=",
         };
         
-        enter.AddEvent(AddonEventType.ButtonClick, () => {
+        enter.AddEvent(AddonEventType.ButtonClick, _ => {
             currentValue = currentOperation switch {
                 CurrentOperation.Add => currentValue + lastValue,
                 CurrentOperation.Subtract => lastValue - currentValue,
@@ -219,7 +219,7 @@ public class AddonCalculator : NativeAddon {
             Label = "+",
         };
         
-        add.AddEvent(AddonEventType.ButtonClick, () => {
+        add.AddEvent(AddonEventType.ButtonClick, _ => {
             if (currentOperation is not CurrentOperation.Add) {
                 lastValue = currentValue;
                 currentValue = 0;
@@ -238,7 +238,7 @@ public class AddonCalculator : NativeAddon {
             Label = "1",
         };
         
-        number1.AddEvent(AddonEventType.ButtonClick, () => EditNumber(1));
+        number1.AddEvent(AddonEventType.ButtonClick, _ => EditNumber(1));
         NativeController.AttachNode(number1, this);
        
         xPos += number1.Width + UnitPadding;
@@ -250,7 +250,7 @@ public class AddonCalculator : NativeAddon {
             Label = "2",
         };
         
-        number2.AddEvent(AddonEventType.ButtonClick, () => EditNumber(2));
+        number2.AddEvent(AddonEventType.ButtonClick, _ => EditNumber(2));
         NativeController.AttachNode(number2, this);
 
         xPos += number2.Width + UnitPadding;
@@ -262,7 +262,7 @@ public class AddonCalculator : NativeAddon {
             Label = "3",
         };
         
-        number3.AddEvent(AddonEventType.ButtonClick, () => EditNumber(3));
+        number3.AddEvent(AddonEventType.ButtonClick, _ => EditNumber(3));
         NativeController.AttachNode(number3, this);
         
         xPos += number3.Width + UnitPadding;
@@ -274,7 +274,7 @@ public class AddonCalculator : NativeAddon {
             Label = "-",
         };
         
-        subtract.AddEvent(AddonEventType.ButtonClick, () => {
+        subtract.AddEvent(AddonEventType.ButtonClick, _ => {
             if (currentOperation is not CurrentOperation.Subtract) {
                 lastValue = currentValue;
                 currentValue = 0;
@@ -293,7 +293,7 @@ public class AddonCalculator : NativeAddon {
             Label = "4",
         };
         
-        number4.AddEvent(AddonEventType.ButtonClick, () => EditNumber(4));
+        number4.AddEvent(AddonEventType.ButtonClick, _ => EditNumber(4));
         NativeController.AttachNode(number4, this);
         
         xPos += number4.Width + UnitPadding;
@@ -305,7 +305,7 @@ public class AddonCalculator : NativeAddon {
             Label = "5",
         };
         
-        number5.AddEvent(AddonEventType.ButtonClick, () => EditNumber(5));
+        number5.AddEvent(AddonEventType.ButtonClick, _ => EditNumber(5));
         NativeController.AttachNode(number5, this);
         
         xPos += number5.Width + UnitPadding;
@@ -317,7 +317,7 @@ public class AddonCalculator : NativeAddon {
             Label = "6",
         };
         
-        number6.AddEvent(AddonEventType.ButtonClick, () => EditNumber(6));
+        number6.AddEvent(AddonEventType.ButtonClick, _ => EditNumber(6));
         NativeController.AttachNode(number6, this);
         
         xPos += number6.Width + UnitPadding;
@@ -329,7 +329,7 @@ public class AddonCalculator : NativeAddon {
             Label = "X",
         };
         
-        multiply.AddEvent(AddonEventType.ButtonClick, () => {
+        multiply.AddEvent(AddonEventType.ButtonClick, _ => {
             if (currentOperation is not CurrentOperation.Multiply) {
                 lastValue = currentValue;
                 currentValue = 0;
@@ -348,7 +348,7 @@ public class AddonCalculator : NativeAddon {
             Label = "7",
         };
         
-        number7.AddEvent(AddonEventType.ButtonClick, () => EditNumber(7));
+        number7.AddEvent(AddonEventType.ButtonClick, _ => EditNumber(7));
         NativeController.AttachNode(number7, this);
         
         xPos += number7.Width + UnitPadding;
@@ -360,7 +360,7 @@ public class AddonCalculator : NativeAddon {
             Label = "8",
         };
         
-        number8.AddEvent(AddonEventType.ButtonClick, () => EditNumber(8));
+        number8.AddEvent(AddonEventType.ButtonClick, _ => EditNumber(8));
         NativeController.AttachNode(number8, this);
         
         xPos += number8.Width + UnitPadding;
@@ -372,7 +372,7 @@ public class AddonCalculator : NativeAddon {
             Label = "9",
         };
         
-        number9.AddEvent(AddonEventType.ButtonClick, () => EditNumber(9));
+        number9.AddEvent(AddonEventType.ButtonClick, _ => EditNumber(9));
         NativeController.AttachNode(number9, this);
         
         xPos += number9.Width + UnitPadding;
@@ -384,7 +384,7 @@ public class AddonCalculator : NativeAddon {
             Label = "/",
         };
         
-        divide.AddEvent(AddonEventType.ButtonClick, () => {
+        divide.AddEvent(AddonEventType.ButtonClick, _ => {
             if (currentOperation is not CurrentOperation.Divide) {
                 lastValue = currentValue;
                 currentValue = 0;
