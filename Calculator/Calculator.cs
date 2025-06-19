@@ -34,7 +34,7 @@ public sealed class CalculatorPlugin : IDalamudPlugin {
             InternalName = "AddonWidgetDemo", 
             Title = "Widget Demo", 
             Size = new Vector2(750.0f, 750.0f), 
-            Position = new Vector2(700.0f, 600.0f),
+            Position = new Vector2(1525.0f, 200.0f),
             NativeController = Services.NativeController,
         };
         

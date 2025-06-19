@@ -103,7 +103,7 @@ public class AddonWidgetDemo : NativeAddon {
 			Label = "Slider",
 		});
 		
-		sliderCategory.AddHeader("Slider");
+		Sliders.SliderDemo(sliderCategory);
 		
 		treeListNode.AddCategoryNode(progressBarCategory = new TreeListCategoryNode {
 			IsVisible = true,
