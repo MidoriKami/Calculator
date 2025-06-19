@@ -113,7 +113,7 @@ public static class Buttons {
 			Size = new Vector2(101.95f, 144.7f),
 			IsVisible = true,
 			
-			// Here we set the path to load the texture from, this can also be a path to a existing game texture
+			// Here we set the path to load the texture from, this can also be a path to an existing game texture
 			TexturePath = Path.Combine(Services.PluginInterface.AssemblyLocation.Directory?.FullName!, @"assets\ff14_midorikami._no_BG.png"),
 			
 			// All button nodes have a "OnClick" handler you can subscribe to
@@ -173,7 +173,7 @@ public static class Buttons {
 			
 		NativeController.AttachNode(demoTextNode, containerNode);
 		
-		// TextureButtons are buttons that load a part of a existing game texture
+		// TextureButtons are buttons that load a part of an existing game texture
 		NativeController.AttachNode(new TextureButtonNode {
 			X = 20.0f,
 			Size = new Vector2(48.0f, 48.0f),

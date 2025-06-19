@@ -19,7 +19,6 @@ public class AddonWidgetDemo : NativeAddon {
 	private TreeListCategoryNode progressBarCategory;
 	private TreeListCategoryNode checkboxCategory;
 	private TreeListCategoryNode counterCategory;
-	private TreeListCategoryNode numericInputCategory;
 	private TreeListCategoryNode textCategory;
 	
 	protected override unsafe void OnSetup(AtkUnitBase* addon) {
@@ -85,10 +84,10 @@ public class AddonWidgetDemo : NativeAddon {
 		treeListNode.AddCategoryNode(inputTextCategory = new TreeListCategoryNode {
 			IsVisible = true,
 			IsCollapsed = true,
-			Label = "Input Text",
+			Label = "Keyboard Input",
 		});
 		
-		inputTextCategory.AddHeader("TextInput");
+		KeyboardInput.InputDemo(inputTextCategory);
 		
 		treeListNode.AddCategoryNode(listCategory = new TreeListCategoryNode {
 			IsVisible = true,
@@ -132,14 +131,6 @@ public class AddonWidgetDemo : NativeAddon {
 		
 		counterCategory.AddHeader("Counter");
 		counterCategory.AddHeader("SimpleCounter");
-		
-		treeListNode.AddCategoryNode(numericInputCategory = new TreeListCategoryNode {
-			IsVisible = true,
-			IsCollapsed = true,
-			Label = "Numeric Input",
-		});
-		
-		numericInputCategory.AddHeader("NumericInput");
 		
 		treeListNode.AddCategoryNode(textCategory = new TreeListCategoryNode {
 			IsVisible = true,
