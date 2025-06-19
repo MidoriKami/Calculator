@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Numerics;
+using Calculator.Demos;
 using Dalamud.Game.Addon.Events;
 using Dalamud.Game.Command;
 using Dalamud.IoC;
@@ -13,8 +14,7 @@ using KamiToolKit.Nodes;
 namespace Calculator;
 
 public sealed class CalculatorPlugin : IDalamudPlugin {
-    
-    public CalculatorPlugin(IDalamudPluginInterface pluginInterface) {
+    public CalculatorPlugin(IDalamudPluginInterface pluginInterface, IFramework framework) {
         pluginInterface.Create<Services>();
 
         // Native Controller is required for injecting KamiToolKit elements into the native UI
@@ -26,27 +26,51 @@ public sealed class CalculatorPlugin : IDalamudPlugin {
             InternalName = "Calculator",
             Title = "Calculator",
             Size = new Vector2(305.0f, 415.0f),
+            Position = new Vector2(400.0f, 600.0f),
+            NativeController = Services.NativeController,
+        };
+
+        Services.AddonWidgetDemo = new AddonWidgetDemo {
+            InternalName = "AddonWidgetDemo", 
+            Title = "Widget Demo", 
+            Size = new Vector2(750.0f, 750.0f), 
+            Position = new Vector2(700.0f, 600.0f),
             NativeController = Services.NativeController,
         };
         
         // For this demo, we will open the calculator window as soon as the plugin loads
-        OpenCalculator();
+        framework.RunOnTick(() => {
+            OpenCalculator();
+            OpenWidgetDemo();
+        }, delayTicks: 3);
 
         // We will also add a chat command to open this window
         Services.CommandManager.AddHandler("/calc", new CommandInfo(OnCommand) {
             HelpMessage = "Open Calculator Window",
         });
+        
+        // We will also add a chat command to open this window
+        Services.CommandManager.AddHandler("/widget", new CommandInfo(OnCommand) {
+            HelpMessage = "Open Widget Window",
+        });
     }
 
     private void OnCommand(string command, string arguments) {
-        if (command is "/calc") {
-            OpenCalculator();
+        switch (command) {
+            case "/calc":
+                OpenCalculator();
+                break;
+            
+            case "/widget":
+                OpenWidgetDemo();
+                break;
         }
     }
 
     public void Dispose() {
         // Disposing our Addon will close it and remove it from the game
         Services.AddonCalculator.Dispose();
+        Services.AddonWidgetDemo.Dispose();
         
         // Disposing native controller will attempt to clean up any nodes or addons that we might have missed
         Services.NativeController.Dispose();
@@ -55,14 +79,19 @@ public sealed class CalculatorPlugin : IDalamudPlugin {
     // Opens the calculator window, it is not safe to call this from any thread except the main thread
     private void OpenCalculator()
         => Services.AddonCalculator.Open();
+    
+    private void OpenWidgetDemo()
+        => Services.AddonWidgetDemo.Open();
 }
 
 // A simple static class for storing any dalamud services that we might want, and for storing any objects that we'll need
 public class Services {
     [PluginService] public static ICommandManager CommandManager { get; set; } = null!;
+    [PluginService] public static IDalamudPluginInterface PluginInterface { get; set; } = null!;
     
     public static NativeController NativeController { get; set; } = null!;
     public static AddonCalculator AddonCalculator { get; set; } = null!;
+    public static AddonWidgetDemo AddonWidgetDemo { get; set; } = null!;
 }
 
 // Example of creating a custom node that we can use together instead of always having to manage each part
@@ -111,17 +140,6 @@ public class TextBox : ResNode {
             boxOutline.Height = value;
             resultText.Height = value - 48.0f;
             resultText.Y = 24.0f;
-        }
-    }
-
-    // Whenever we inherit a node and add additional nodes,
-    // we will be responsible for calling dispose on those nodes
-    protected override void Dispose(bool disposing) {
-        if (disposing) {
-            boxOutline.Dispose();
-            resultText.Dispose();
-            
-            base.Dispose(disposing);
         }
     }
 }

@@ -5,6 +5,17 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Content Include="..\Calculator\assets\ff14_midorikami._no_BG.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Visible>false</Visible>
+        </Content>
+        <Content Include="..\Calculator\assets\niko-oneshot.gif">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Visible>false</Visible>
+        </Content>
+    </ItemGroup>
+    
+    <ItemGroup>
         <ProjectReference Include="..\KamiToolKit\KamiToolKit.csproj" />
     </ItemGroup>
 </Project>
