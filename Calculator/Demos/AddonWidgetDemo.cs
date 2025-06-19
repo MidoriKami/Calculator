@@ -95,8 +95,7 @@ public class AddonWidgetDemo : NativeAddon {
 			Label = "List",
 		});
 		
-		listCategory.AddHeader("TextList");
-		listCategory.AddHeader("LuminaList");
+		Lists.ListDemo(listCategory);
 		
 		treeListNode.AddCategoryNode(sliderCategory = new TreeListCategoryNode {
 			IsVisible = true,
