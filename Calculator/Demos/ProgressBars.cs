@@ -59,7 +59,6 @@ public static class ProgressBars {
 			Label = "Randomize Color",
 			OnClick = () => {
 				var rng = new Random();
-				
 				castBarNode.BarColor = new Vector4(rng.Next() % 255, rng.Next() % 255, rng.Next() % 255, 1);
 			},
 		};
@@ -103,7 +102,6 @@ public static class ProgressBars {
 			Label = "Randomize Color",
 			OnClick = () => {
 				var rng = new Random();
-				
 				castBarNode.BarColor = new Vector4(rng.Next() % 255, rng.Next() % 255, rng.Next() % 255, 1);
 			},
 		};
