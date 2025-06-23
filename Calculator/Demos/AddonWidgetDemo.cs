@@ -120,7 +120,7 @@ public class AddonWidgetDemo : NativeAddon {
 			Label = "Checkbox",
 		});
 		
-		checkboxCategory.AddHeader("Checkbox");
+		CheckBoxes.CheckBoxDemo(checkboxCategory);
 		
 		treeListNode.AddCategoryNode(counterCategory = new TreeListCategoryNode {
 			IsVisible = true,
