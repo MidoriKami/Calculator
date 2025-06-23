@@ -47,22 +47,16 @@ public static class ProgressBars {
 		var progressSlider = new SliderNode {
 			Size = new Vector2(150.0f, 32.0f),
 			IsVisible = true,
-			
 			Min = 0,
-			
 			Max = 100,
-			
 			Value = 20,
-			
 			OnValueChanged = newValue => castBarNode.Progress = newValue / 100.0f,
 		};
 
 		var randomColorButton = new TextButtonNode {
 			Size = new Vector2(150.0f, 32.0f),
 			IsVisible = true,
-			
 			Label = "Randomize Color",
-			
 			OnClick = () => {
 				var rng = new Random();
 				
@@ -97,22 +91,16 @@ public static class ProgressBars {
 		var progressSlider = new SliderNode {
 			Size = new Vector2(150.0f, 32.0f),
 			IsVisible = true,
-			
 			Min = 0,
-			
 			Max = 100,
-			
 			Value = 35,
-			
 			OnValueChanged = newValue => castBarNode.Progress = newValue / 100.0f,
 		};
 
 		var randomColorButton = new TextButtonNode {
 			Size = new Vector2(150.0f, 32.0f),
 			IsVisible = true,
-			
 			Label = "Randomize Color",
-			
 			OnClick = () => {
 				var rng = new Random();
 				
