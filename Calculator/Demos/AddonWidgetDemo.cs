@@ -20,6 +20,7 @@ public class AddonWidgetDemo : NativeAddon {
 	private TreeListCategoryNode? checkboxCategory;
 	private TreeListCategoryNode? counterCategory;
 	private TreeListCategoryNode? textCategory;
+	private TreeListCategoryNode? tabBarCategory;
 	
 	protected override unsafe void OnSetup(AtkUnitBase* addon) {
 		// ScrollingAreaNode Demo, creates a content node that you can attach your elements to and will scroll the contents
@@ -137,5 +138,13 @@ public class AddonWidgetDemo : NativeAddon {
 		});
 		
 		Texts.TextDemo(textCategory);
+		
+		treeListNode.AddCategoryNode(tabBarCategory = new TreeListCategoryNode {
+			IsVisible = true,
+			IsCollapsed = true,
+			Label = "Tab Bar",
+		});
+		
+		TabBars.TabBarDemo(tabBarCategory);
 	}
 }
