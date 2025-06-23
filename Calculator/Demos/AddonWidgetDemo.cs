@@ -128,8 +128,7 @@ public class AddonWidgetDemo : NativeAddon {
 			Label = "Counter",
 		});
 		
-		counterCategory.AddHeader("Counter");
-		counterCategory.AddHeader("SimpleCounter");
+		Counters.CountersDemo(counterCategory);
 		
 		treeListNode.AddCategoryNode(textCategory = new TreeListCategoryNode {
 			IsVisible = true,
