@@ -42,7 +42,7 @@ public static class Lists {
 			IsVisible = true,
 
 			// Set how many options at most we will show at a time
-			MaxButtons = 4,
+			MaxButtons = 3,
 			
 			// Here we can select which texture we want to use for the button
 			Options = [
