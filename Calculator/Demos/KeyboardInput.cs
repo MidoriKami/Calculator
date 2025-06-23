@@ -1,6 +1,5 @@
 ﻿using System.Numerics;
 using FFXIVClientStructs.FFXIV.Component.GUI;
-using KamiToolKit;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
 using KamiToolKit.System;
@@ -12,12 +11,6 @@ public static class KeyboardInput {
 		Width = treeListCategoryNode.Width,
 		AlignmentFlags = FlexFlags.FitHeight | FlexFlags.CenterHorizontally | FlexFlags.FitContentHeight,
 		IsVisible = true,
-	};
-
-	private static TextNode GetTextNode() => new() {
-		TextFlags = TextFlags.AutoAdjustNodeSize,
-		AlignmentType = AlignmentType.Left,
-		Text = "Input Value: ",
 	};
 
 	public static void InputDemo(TreeListCategoryNode treeListCategoryNode) {
