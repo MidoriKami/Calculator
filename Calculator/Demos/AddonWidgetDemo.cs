@@ -112,8 +112,7 @@ public class AddonWidgetDemo : NativeAddon {
 			Label = "Progress Bar",
 		});
 		
-		progressBarCategory.AddHeader("BasicProgressBar");
-		progressBarCategory.AddHeader("ProgressBar");
+		ProgressBars.ProgressBarDemo(progressBarCategory);
 		
 		treeListNode.AddCategoryNode(checkboxCategory = new TreeListCategoryNode {
 			IsVisible = true,
