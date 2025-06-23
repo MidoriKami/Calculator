@@ -6,17 +6,15 @@ using Dalamud.Game.Command;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
-using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
 using KamiToolKit.Addon;
-using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
 
 namespace Calculator;
 
 public sealed class CalculatorPlugin : IDalamudPlugin {
-    public CalculatorPlugin(IDalamudPluginInterface pluginInterface, IFramework framework) {
+    public CalculatorPlugin(IDalamudPluginInterface pluginInterface) {
         pluginInterface.Create<Services>();
 
         // Native Controller is required for injecting KamiToolKit elements into the native UI
@@ -41,10 +39,8 @@ public sealed class CalculatorPlugin : IDalamudPlugin {
         };
         
         // For this demo, we will open the calculator window as soon as the plugin loads
-        framework.RunOnTick(() => {
-            // OpenCalculator();
-            OpenWidgetDemo();
-        }, delayTicks: 3);
+        OpenCalculator();
+        OpenWidgetDemo();
 
         // We will also add a chat command to open this window
         Services.CommandManager.AddHandler("/calc", new CommandInfo(OnCommand) {
@@ -90,7 +86,6 @@ public sealed class CalculatorPlugin : IDalamudPlugin {
 public class Services {
     [PluginService] public static ICommandManager CommandManager { get; set; } = null!;
     [PluginService] public static IDalamudPluginInterface PluginInterface { get; set; } = null!;
-    [PluginService] public static IPluginLog Log { get; set; } = null!;
     
     public static NativeController NativeController { get; set; } = null!;
     public static AddonCalculator AddonCalculator { get; set; } = null!;
