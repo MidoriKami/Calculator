@@ -9,20 +9,19 @@ public class AddonWidgetDemo : NativeAddon {
 	
 	private ScrollingAreaNode? scrollingAreaNode;
 	private TreeListNode? treeListNode;
-	private TreeListCategoryNode buttonCategory;
-	private TreeListCategoryNode dropDownCategory;
-	private TreeListCategoryNode iconCategory;
-	private TreeListCategoryNode imageCategory;
-	private TreeListCategoryNode inputTextCategory;
-	private TreeListCategoryNode listCategory;
-	private TreeListCategoryNode sliderCategory;
-	private TreeListCategoryNode progressBarCategory;
-	private TreeListCategoryNode checkboxCategory;
-	private TreeListCategoryNode counterCategory;
-	private TreeListCategoryNode textCategory;
+	private TreeListCategoryNode? buttonCategory;
+	private TreeListCategoryNode? dropDownCategory;
+	private TreeListCategoryNode? iconCategory;
+	private TreeListCategoryNode? imageCategory;
+	private TreeListCategoryNode? inputTextCategory;
+	private TreeListCategoryNode? listCategory;
+	private TreeListCategoryNode? sliderCategory;
+	private TreeListCategoryNode? progressBarCategory;
+	private TreeListCategoryNode? checkboxCategory;
+	private TreeListCategoryNode? counterCategory;
+	private TreeListCategoryNode? textCategory;
 	
 	protected override unsafe void OnSetup(AtkUnitBase* addon) {
-		
 		// ScrollingAreaNode Demo, creates a content node that you can attach your elements to and will scroll the contents
 		NativeController.AttachNode(scrollingAreaNode = new ScrollingAreaNode {
 			
@@ -41,6 +40,8 @@ public class AddonWidgetDemo : NativeAddon {
 			Position = new Vector2(0.0f, 0.0f), 
 			Size = scrollingAreaNode.ContentNode.Size,
 			IsVisible = true,
+			
+			// We can set an event to change the size of our scrolling area, depending on if the trees are collapsed
 			OnLayoutUpdate = newHeight => scrollingAreaNode.ContentHeight = newHeight,
 		};
 		

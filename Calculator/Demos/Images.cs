@@ -2,14 +2,19 @@
 using System.IO;
 using System.Numerics;
 using Dalamud.Interface;
-using KamiToolKit;
+using KamiToolKit.Classes;
 using KamiToolKit.NodeParts;
 using KamiToolKit.Nodes;
+using KamiToolKit.System;
 
 namespace Calculator.Demos;
 
 public static class Images {
-	private static NativeController NativeController => Services.NativeController;
+	private static HorizontalFlexNode<NodeBase> GetContainer(TreeListCategoryNode treeListCategoryNode) => new() {
+		Width = treeListCategoryNode.Width,
+		AlignmentFlags = FlexFlags.FitContentHeight | FlexFlags.CenterVertically | FlexFlags.CenterHorizontally,
+		IsVisible = true,
+	};
 	
 	public static void ImageDemo(TreeListCategoryNode imageCategory) {
 		imageCategory.AddHeader("BackgroundImage");
@@ -32,36 +37,26 @@ public static class Images {
 	}
 
 	private static void BackgroundImage(TreeListCategoryNode imageCategory) {
-		ResNode containerNode;
-		imageCategory.AddNode(containerNode = new ResNode {
-			Width = imageCategory.Width,
-			Height = 64.0f,
-			IsVisible = true,
-		});
+		var flexGrid = GetContainer(imageCategory);
 		
 		// This is a basic node that is easily colorable to act as a background to any element you desire
-		NativeController.AttachNode(new BackgroundImageNode {
-			X = 20.0f,
+		var backgroundImageNode = new BackgroundImageNode {
 			Size = new Vector2(64.0f, 64.0f),
 			IsVisible = true,
 
 			// Here we can set any color we want, this will accept any values between 0.0f and 1.0f
 			Color = KnownColor.OrangeRed.Vector(),
-			
-		}, containerNode);
+		};
+		
+		flexGrid.AddNode(backgroundImageNode);
+		imageCategory.AddNode(flexGrid);
 	}
 
 	private static void GifImage(TreeListCategoryNode imageCategory) {
-		ResNode containerNode;
-		imageCategory.AddNode(containerNode = new ResNode {
-			Width = imageCategory.Width,
-			Height = 640.0f,
-			IsVisible = true,
-		});
+		var flexGrid = GetContainer(imageCategory);
 		
 		// This is a basic node that is easily colorable to act as a background to any element you desire
-		NativeController.AttachNode(new GifImageNode {
-			X = 20.0f,
+		var gifImageNode = new GifImageNode {
 			IsVisible = true,
 			
 			// Sets the file path to load the gif from, this must be loaded from filesystem, as the game does not natively support gifs
@@ -70,40 +65,38 @@ public static class Images {
 			// This field will cause the node to resize to fit the loaded frames maintaining aspect ratio
 			FitNodeToGif = true,
 			
-		}, containerNode);
+			// Event that is called when the gif has fully loaded, as its size will be unknown until it loads
+			OnGifLoaded = () => {
+				flexGrid.RecalculateLayout();
+				imageCategory.RecalculateLayout();
+			},
+		};
+		
+		flexGrid.AddNode(gifImageNode);
+		imageCategory.AddNode(flexGrid);
 	}
 
 	private static void IconImage(TreeListCategoryNode imageCategory) {
-		ResNode containerNode;
-		imageCategory.AddNode(containerNode = new ResNode {
-			Width = imageCategory.Width,
-			Height = 64.0f,
-			IsVisible = true,
-		});
-		
+		var flexGrid = GetContainer(imageCategory);
+
 		// This is a basic image node with a single texture part and helpers to load icon textures
-		NativeController.AttachNode(new IconImageNode {
-			X = 20.0f,
+		var iconImageNode = new IconImageNode {
 			IsVisible = true,
 			Size = new Vector2(64.0f, 64.0f),
-			
+
 			// The icon texture we want to load
 			IconId = 2551,
-			
-		}, containerNode);
+		};
+		
+		flexGrid.AddNode(iconImageNode);
+		imageCategory.AddNode(flexGrid);
 	}
 
 	private static void Image(TreeListCategoryNode imageCategory) {
-		ResNode containerNode;
-		imageCategory.AddNode(containerNode = new ResNode {
-			Width = imageCategory.Width,
-			Height = 64.0f,
-			IsVisible = true,
-		});
+		var flexGrid = GetContainer(imageCategory);
 		
 		// Base type of image that does nothing for you automatically, you are required to allocate parts to make this node work
 		var imageNode = new ImageNode {
-			X = 20.0f, 
 			IsVisible = true, 
 			
 			// This size doesn't have to match the part size, they will be stretched to fit
@@ -134,69 +127,62 @@ public static class Images {
 			Size = new Vector2(36.0f, 36.0f),
 			Id = 1,
 		});
-		
-		NativeController.AttachNode(imageNode, containerNode);
-		
-		NativeController.AttachNode(new TextButtonNode {
-			Position = new Vector2(100.0f, 0.0f),
+
+		var swapPartButton = new TextButtonNode {
 			Size = new Vector2(150.0f, 28.0f),
 			IsVisible = true,
 			Label = "Swap Part Id",
 			OnClick = () => {
 				imageNode.PartId = (uint) (imageNode.PartId is 0 ? 1 : 0);
 			},
-		}, containerNode);
+		};
+		
+		flexGrid.AddNode(imageNode);
+		flexGrid.AddNode(swapPartButton);
+		imageCategory.AddNode(flexGrid);
 	}
 
 	private static void ImGuiImage(TreeListCategoryNode imageCategory) {
-		ResNode containerNode;
-		imageCategory.AddNode(containerNode = new ResNode {
-			Width = imageCategory.Width,
-			Height = 150.0f,
-			IsVisible = true,
-		});
+		var flexGrid = GetContainer(imageCategory);
 		
 		// ImGuiImageNode allows us to load any custom image into the game as a simple texture
-		NativeController.AttachNode(new ImGuiImageNode {
-			X = 20.0f,
+		var imGuiImageNoe = new ImGuiImageNode {
 			Size = new Vector2(101.95f, 144.7f),
 			IsVisible = true,
-			
+
 			// Here we set the path to load the texture from, this can also be a path to a existing game texture
 			TexturePath = Path.Combine(Services.PluginInterface.AssemblyLocation.Directory?.FullName!, @"assets\ff14_midorikami._no_BG.png"),
-			
-		}, containerNode);
+		};
+		
+		flexGrid.AddNode(imGuiImageNoe);
+		imageCategory.AddNode(flexGrid);
 	}
 
 	private static void SimpleImage(TreeListCategoryNode imageCategory) {
-		ResNode containerNode;
-		imageCategory.AddNode(containerNode = new ResNode {
-			Width = imageCategory.Width,
-			Height = 260.0f,
-			IsVisible = true,
-		});
+		var flexGrid = GetContainer(imageCategory);
 		
 		// A simple image node with a single texture part already allocated, you only need to set texture information
-		NativeController.AttachNode(new SimpleImageNode {
-			X = 20.0f,
+		var imageNode = new SimpleImageNode {
 			IsVisible = true,
 			Size = new Vector2(486.0f, 260.0f),
 
 			// Disable texture wrapping
 			WrapMode = 0,
-			
+
 			// Disable auto-fit, and other flags
 			ImageNodeFlags = 0,
-			
+
 			// Set the file path to load the image from
 			TexturePath = "ui/uld/lotterydaily.tex",
-			
+
 			// The texture coordinates of the part you want to load
 			TextureCoordinates = new Vector2(0.0f, 0.0f),
-			
+
 			// The texture size of that part
 			TextureSize = new Vector2(486.0f, 260.0f),
-			
-		}, containerNode);
+		};
+		
+		flexGrid.AddNode(imageNode);
+		imageCategory.AddNode(flexGrid);
 	}
 }

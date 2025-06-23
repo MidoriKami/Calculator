@@ -1,11 +1,16 @@
 ﻿using System.Numerics;
-using KamiToolKit;
+using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
+using KamiToolKit.System;
 
 namespace Calculator.Demos;
 
 public static class Icons {
-	private static NativeController NativeController => Services.NativeController;
+	private static HorizontalFlexNode<NodeBase> GetContainer(TreeListCategoryNode treeListCategoryNode) => new() {
+		Width = treeListCategoryNode.Width,
+		AlignmentFlags = FlexFlags.FitContentHeight | FlexFlags.CenterVertically | FlexFlags.CenterHorizontally,
+		IsVisible = true,
+	};
 	
 	public static void IconDemo(TreeListCategoryNode treeListCategoryNode) {
 		treeListCategoryNode.AddHeader("Icon");
@@ -16,34 +21,24 @@ public static class Icons {
 	}
 
 	public static void Icon(TreeListCategoryNode treeListCategoryNode) {
-		ResNode containerNode;
-		treeListCategoryNode.AddNode(containerNode = new ResNode {
-			Width = treeListCategoryNode.Width,
-			Height = 48.0f,
-			IsVisible = true,
-		});
-
-		IconNode iconNode;
+		var flexGrid = GetContainer(treeListCategoryNode);
 		
 		// IconNode's are complex composite nodes involving a **lot** of data from the game
 		// These represent interactable icons that the game shows
 		// WARNING: WORK IN PROGRESS, INTERACTIONS MAY NOT BEHAVE AS EXPECTED
 		//
 		// If you only need to show a game icon, see IconImageNode or IconButtonNode
-		NativeController.AttachNode(iconNode = new IconNode {
+		var iconNode = new IconNode {
 			X = 20.0f,
 			Size = new Vector2(44.0f, 44.0f),
 			IsVisible = true,
-			
 			IconId = 2551,
-			
 			IsMacro = false,
 			IsIconDisabled = true,
 			IsRecipe = false,
+		};
 
-		}, containerNode);
-		
-		NativeController.AttachNode(new TextButtonNode {
+		var button = new TextButtonNode {
 			Position = new Vector2(100.0f, 0.0f),
 			Size = new Vector2(150.0f, 28.0f),
 			IsVisible = true,
@@ -51,26 +46,29 @@ public static class Icons {
 			OnClick = () => {
 				iconNode.IsIconDisabled = !iconNode.IsIconDisabled;
 			},
-		}, containerNode);
+		};
+		
+		flexGrid.AddNode(iconNode);
+		flexGrid.AddNode(button);
+		
+		treeListCategoryNode.AddNode(flexGrid);
 	}
 	
 	private static void DragDropIcon(TreeListCategoryNode treeListCategoryNode) {
-		ResNode containerNode;
-		treeListCategoryNode.AddNode(containerNode = new ResNode {
-			Width = treeListCategoryNode.Width,
-			Height = 48.0f,
-			IsVisible = true,
-		});
+		var flexGrid = GetContainer(treeListCategoryNode);
 
 		// DragDropNode's are even more complex nodes for accepting and providing actions and icons
 		// WARNING: WORK IN PROGRESS, INTERACTIONS MAY NOT BEHAVE AS EXPECTED
-		NativeController.AttachNode(new DragDropNode {
-			X = 20.0f,
-			Size = new Vector2(44.0f, 44.0f),
-			IsVisible = true,
-			
+		var dragDropNode = new DragDropNode {
+			X = 20.0f, 
+			Size = new Vector2(44.0f, 44.0f), 
+			IsVisible = true, 
 			IconId = 2551,
-			
-		}, containerNode);
+		};
+		
+		flexGrid.AddNode(dragDropNode);
+		flexGrid.AddDummy(new ResNode(), 0.0f);
+		
+		treeListCategoryNode.AddNode(flexGrid);
 	}
 }

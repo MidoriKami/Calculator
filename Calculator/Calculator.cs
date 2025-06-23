@@ -6,9 +6,11 @@ using Dalamud.Game.Command;
 using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
+using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
 using KamiToolKit.Addon;
+using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
 
 namespace Calculator;
@@ -40,7 +42,7 @@ public sealed class CalculatorPlugin : IDalamudPlugin {
         
         // For this demo, we will open the calculator window as soon as the plugin loads
         framework.RunOnTick(() => {
-            OpenCalculator();
+            // OpenCalculator();
             OpenWidgetDemo();
         }, delayTicks: 3);
 
@@ -88,6 +90,7 @@ public sealed class CalculatorPlugin : IDalamudPlugin {
 public class Services {
     [PluginService] public static ICommandManager CommandManager { get; set; } = null!;
     [PluginService] public static IDalamudPluginInterface PluginInterface { get; set; } = null!;
+    [PluginService] public static IPluginLog Log { get; set; } = null!;
     
     public static NativeController NativeController { get; set; } = null!;
     public static AddonCalculator AddonCalculator { get; set; } = null!;
@@ -446,4 +449,13 @@ public enum CurrentOperation {
     Subtract,
     Multiply,
     Divide,
+}
+
+public class CustomWindowNode : WindowNode {
+
+    public CustomWindowNode() {
+        HeaderContainerNode.Y += 6.0f;
+        TitleNode.X += 32.0f;
+        TitleNode.Y -= 4.0f;
+    }
 }

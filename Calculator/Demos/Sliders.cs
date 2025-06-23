@@ -21,6 +21,12 @@ public static class Sliders {
 			IsVisible = true,
 		});
 		
+		var demoTextNode = new TextNode {
+			Position = new Vector2(120.0f, 12.0f),
+		};
+			
+		NativeController.AttachNode(demoTextNode, containerNode);
+		
 		// Sliders let the user choose values between a set range
 		NativeController.AttachNode(new SliderNode {
 			X = 20.0f,
@@ -32,6 +38,9 @@ public static class Sliders {
 			
 			// Maximum value to allow
 			Max = 30,
+			
+			// Event that is called when the value changes
+			OnValueChanged = newValue => demoTextNode.Text = $"Value: {newValue}",
 			
 		}, containerNode);
 	}

@@ -1,12 +1,24 @@
 ﻿using System.Numerics;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
+using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
+using KamiToolKit.System;
 
 namespace Calculator.Demos;
 
 public static class KeyboardInput {
-	private static NativeController NativeController => Services.NativeController;
+	private static HorizontalFlexNode<NodeBase> GetContainer(TreeListCategoryNode treeListCategoryNode) => new() {
+		Width = treeListCategoryNode.Width,
+		AlignmentFlags = FlexFlags.FitHeight | FlexFlags.CenterHorizontally | FlexFlags.FitContentHeight,
+		IsVisible = true,
+	};
+
+	private static TextNode GetTextNode() => new() {
+		TextFlags = TextFlags.AutoAdjustNodeSize,
+		AlignmentType = AlignmentType.Left,
+		Text = "Input Value: ",
+	};
 
 	public static void InputDemo(TreeListCategoryNode treeListCategoryNode) {
 		treeListCategoryNode.AddHeader("TextInput");
@@ -17,12 +29,7 @@ public static class KeyboardInput {
 	}
 
 	private static void TextInput(TreeListCategoryNode treeListCategoryNode) {
-		ResNode containerNode;
-		treeListCategoryNode.AddNode(containerNode = new ResNode {
-			Width = treeListCategoryNode.Width,
-			Height = 28.0f,
-			IsVisible = true,
-		});
+		var flexGrid = GetContainer(treeListCategoryNode);
 
 		var inputString = string.Empty;
 		var demoTextNode = new TextNode {
@@ -31,42 +38,38 @@ public static class KeyboardInput {
 			Text = $"InputText: {inputString}",
 			AlignmentType = AlignmentType.Left,
 		};
-			
-		NativeController.AttachNode(demoTextNode, containerNode);
 		
 		// Text input nodes are for getting strings from the user
-		NativeController.AttachNode(new TextInputNode {
-			X = 20.0f,
+		var textInputNode = new TextInputNode {
 			Size = new Vector2(200.0f, 28.0f),
 			IsVisible = true,
-			
+
 			// Set maximum string length, can be 0 for no limit
 			MaxCharacters = 20,
-			
+
 			// You can show or hide the character limit node
 			ShowLimitText = true,
-			
+
 			// Event that is called with each key pressed
 			OnInputReceived = newString => {
 				inputString = newString.ToString();
 				demoTextNode.Text = $"InputText: {inputString}";
-			}, 
-			
+			},
+
 			// Event that is called when return or escape is pressed
 			OnInputComplete = newString => {
 				inputString = newString.ToString();
 				demoTextNode.Text = $"InputText: {inputString}, Input is complete!";
-			}, 
-		}, containerNode);
+			},
+		};
+		
+		flexGrid.AddNode(textInputNode);
+		flexGrid.AddNode(demoTextNode);
+		treeListCategoryNode.AddNode(flexGrid);
 	}
 
 	private static void NumericInput(TreeListCategoryNode treeListCategoryNode) {
-		ResNode containerNode;
-		treeListCategoryNode.AddNode(containerNode = new ResNode {
-			Width = treeListCategoryNode.Width,
-			Height = 28.0f,
-			IsVisible = true,
-		});
+		var flexGrid = GetContainer(treeListCategoryNode);
 
 		var demoTextNode = new TextNode {
 			Position = new Vector2(250.0f, 0.0f),
@@ -74,19 +77,21 @@ public static class KeyboardInput {
 			Text = $"InputNumber: Not Set",
 			AlignmentType = AlignmentType.Left,
 		};
-			
-		NativeController.AttachNode(demoTextNode, containerNode);
 		
 		// Numeric Inputs are for getting numbers from the user
-		NativeController.AttachNode(new NumericInputNode {
+		var numericInputNode = new NumericInputNode {
 			X = 20.0f,
 			Size = new Vector2(200.0f, 28.0f),
 			IsVisible = true,
-			
+
 			// Event that is called when number is changed
 			OnValueUpdate = newValue => {
 				demoTextNode.Text = $"InputNumber: {newValue}";
 			},
-		}, containerNode);
+		};
+		
+		flexGrid.AddNode(numericInputNode);
+		flexGrid.AddNode(demoTextNode);
+		treeListCategoryNode.AddNode(flexGrid);
 	}
 }
