@@ -19,6 +19,7 @@ public static class DropDowns {
 	private static TextNode GetTextNode() => new() {
 		TextFlags = TextFlags.AutoAdjustNodeSize,
 		AlignmentType = AlignmentType.Left,
+		Height = 28.0f,
 		Text = "No option selected",
 	};
 	
@@ -33,8 +34,6 @@ public static class DropDowns {
 	private static void TextDropDown(TreeListCategoryNode treeListCategoryNode) {
 		var flexGrid = GetContainer(treeListCategoryNode);
 		var textNode = GetTextNode();
-
-		textNode.Height = 28.0f;
 
 		// Basic text dropdown node, you can set various text options that the user can select
 		// Note: the number of buttons generated is dependent on the higher of the dropdown element
@@ -64,6 +63,8 @@ public static class DropDowns {
 			},
 		};
 		
+		textNode.Height = textDropDown.Height;
+		
 		flexGrid.AddNode(textDropDown);
 		flexGrid.AddNode(textNode);
 		
@@ -73,8 +74,6 @@ public static class DropDowns {
 	private static void LuminaDropDown(TreeListCategoryNode treeListCategoryNode) {
 		var flexGrid = GetContainer(treeListCategoryNode);
 		var textNode = GetTextNode();
-		
-		textNode.Height = 28.0f;
 		
 		// LuminaDropDowns extract data from the games internal datasheets
 		// This allows you to let the user choose from a filtered list of data
@@ -96,6 +95,8 @@ public static class DropDowns {
 				textNode.Text = $"Option Selected: {option.AethernetName.Value.Name.ExtractText()}";
 			},
 		};
+		
+		textNode.Height = luminaDropDown.Height;
 		
 		flexGrid.AddNode(luminaDropDown);
 		flexGrid.AddNode(textNode);
