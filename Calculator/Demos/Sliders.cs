@@ -1,12 +1,25 @@
 ﻿using System.Numerics;
-using KamiToolKit;
+using FFXIVClientStructs.FFXIV.Component.GUI;
+using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
 using KamiToolKit.Nodes.Slider;
+using KamiToolKit.System;
 
 namespace Calculator.Demos;
 
 public static class Sliders {
-	private static NativeController NativeController => Services.NativeController;
+	private static HorizontalFlexNode<NodeBase> GetContainer(TreeListCategoryNode treeListCategoryNode) => new() {
+		Width = treeListCategoryNode.Width,
+		AlignmentFlags = FlexFlags.CenterHorizontally | FlexFlags.FitContentHeight,
+		IsVisible = true,
+	};
+	
+	private static TextNode GetTextNode() => new() {
+		TextFlags = TextFlags.AutoAdjustNodeSize,
+		AlignmentType = AlignmentType.Left,
+		Text = "No option selected",
+		Height = 32.0f,
+	};
 
 	public static void SliderDemo(TreeListCategoryNode treeListCategoryNode) {
 		treeListCategoryNode.AddHeader("Slider");
@@ -14,34 +27,26 @@ public static class Sliders {
 	}
 
 	private static void Slider(TreeListCategoryNode treeListCategoryNode) {
-		ResNode containerNode;
-		treeListCategoryNode.AddNode(containerNode = new ResNode {
-			Width = treeListCategoryNode.Width,
-			Height = 32.0f,
-			IsVisible = true,
-		});
-		
-		var demoTextNode = new TextNode {
-			Position = new Vector2(120.0f, 12.0f),
-		};
-			
-		NativeController.AttachNode(demoTextNode, containerNode);
+		var flexGrid = GetContainer(treeListCategoryNode);
+		var textNode = GetTextNode();
 		
 		// Sliders let the user choose values between a set range
-		NativeController.AttachNode(new SliderNode {
-			X = 20.0f,
+		var sliderNode = new SliderNode {
 			Size = new Vector2(300.0f, 32.0f),
 			IsVisible = true,
-			
+
 			// Minimum value to allow
 			Min = 5,
-			
+
 			// Maximum value to allow
 			Max = 30,
-			
+
 			// Event that is called when the value changes
-			OnValueChanged = newValue => demoTextNode.Text = $"Value: {newValue}",
-			
-		}, containerNode);
+			OnValueChanged = newValue => textNode.Text = $"Value: {newValue}",
+		};
+		
+		flexGrid.AddNode(sliderNode);
+		flexGrid.AddNode(textNode);
+		treeListCategoryNode.AddNode(flexGrid);
 	}
 }
