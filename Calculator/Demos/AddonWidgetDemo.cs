@@ -136,7 +136,6 @@ public class AddonWidgetDemo : NativeAddon {
 			Label = "Text",
 		});
 		
-		textCategory.AddHeader("Text");
-		
+		Texts.TextDemo(textCategory);
 	}
 }
