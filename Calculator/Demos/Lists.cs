@@ -41,6 +41,9 @@ public static class Lists {
 			Size = new Vector2(300.0f, 150.0f),
 			IsVisible = true,
 
+			// Set how many options at most we will show at a time
+			MaxButtons = 4,
+			
 			// Here we can select which texture we want to use for the button
 			Options = [
 				"Pick Me!",
@@ -53,9 +56,6 @@ public static class Lists {
 				"Sir, this is a Wendy's",
 				"No! This is Patrick!",
 			],
-			
-			// // Set how many options at most we will show at a time
-			// MaxButtons = 3,
 
 			// Lists provide an OnOptionSelected callback to trigger doing something when the user selects an option
 			OnOptionSelected = option => {
