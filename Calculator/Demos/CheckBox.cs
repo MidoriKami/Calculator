@@ -28,7 +28,6 @@ public static class CheckBoxes {
 			String = "Checked",
 		};
 		
-		// A simple checkbox node
 		var checkBox = new CheckboxNode {
 			Size = new Vector2(150.0f, 20.0f),
 			IsVisible = true,
@@ -52,7 +51,6 @@ public static class CheckBoxes {
 			Label = "Toggle Enabled",
 			OnClick = () => checkBox.IsEnabled = !checkBox.IsEnabled,
 		};
-		
 		
 		flexGrid.AddNode(checkBox);
 		flexGrid.AddNode(statusText);
