@@ -36,7 +36,20 @@ public static class RadioGroups {
 		radioGroup.AddButton("Second", () => { });
 		radioGroup.AddButton("Third", () => { });
 		
+		// Adds a tab amount to all following nodes inserted
 		tabList.AddTab(1);
+		
+		// Add a node at the current tab index
 		tabList.AddNode(radioGroup);
+		
+		// Alternatively, to insert a node at specific tab,
+		// this will still add the internal current tab index
+		// tabList.AddNode(1, radioGroup);
+
+		// Additionally, you can reduce the tab amount
+		// tabList.SubtractTab(1);
+
+		// Can add a negative tab amount
+		// tabList.AddNode(-1);
 	}
 }
