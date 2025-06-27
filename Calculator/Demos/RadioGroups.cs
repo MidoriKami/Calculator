@@ -38,6 +38,5 @@ public static class RadioGroups {
 		
 		tabList.AddTab(1);
 		tabList.AddNode(radioGroup);
-		
 	}
 }
