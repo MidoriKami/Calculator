@@ -149,7 +149,13 @@ public static class Images {
 		var imGuiImageNoe = new ImGuiImageNode {
 			Size = new Vector2(101.95f, 144.7f),
 			IsVisible = true,
+			
+			// Mode 2 will stretch the parts to fit our current size
+			WrapMode = 2,
 
+			// Disable auto-fit, and other flags
+			ImageNodeFlags = 0,
+			
 			// Here we set the path to load the texture from, this can also be a path to a existing game texture
 			TexturePath = Path.Combine(Services.PluginInterface.AssemblyLocation.Directory?.FullName!, @"assets\ff14_midorikami._no_BG.png"),
 		};
