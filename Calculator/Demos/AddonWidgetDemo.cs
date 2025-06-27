@@ -156,5 +156,13 @@ public class AddonWidgetDemo : NativeAddon {
 		});
 		
 		TextNineGrids.ImageDemo(textNineGridCategory);
+		
+		treeListNode.AddCategoryNode(radioGroupCategory = new TreeListCategoryNode {
+			IsVisible = true,
+			IsCollapsed = true,
+			Label = "Radio Group",
+		});
+		
+		RadioGroups.RadioGroupDemo(radioGroupCategory);
 	}
 }
