@@ -21,6 +21,8 @@ public class AddonWidgetDemo : NativeAddon {
 	private TreeListCategoryNode? counterCategory;
 	private TreeListCategoryNode? textCategory;
 	private TreeListCategoryNode? tabBarCategory;
+	private TreeListCategoryNode? textNineGridCategory;
+	private TreeListCategoryNode? radioGroupCategory;
 	
 	protected override unsafe void OnSetup(AtkUnitBase* addon) {
 		// ScrollingAreaNode Demo, creates a content node that you can attach your elements to and will scroll the contents
@@ -146,5 +148,13 @@ public class AddonWidgetDemo : NativeAddon {
 		});
 		
 		TabBars.TabBarDemo(tabBarCategory);
+		
+		treeListNode.AddCategoryNode(textNineGridCategory  = new TreeListCategoryNode {
+			IsVisible = true,
+			IsCollapsed = true,
+			Label = "Text NineGrid",
+		});
+		
+		TextNineGrids.ImageDemo(textNineGridCategory);
 	}
 }
