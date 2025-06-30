@@ -35,6 +35,9 @@ public static class Buttons {
 		
 		treeListCategoryNode.AddHeader("TextureButton");
 		TextureButton(treeListCategoryNode);
+		
+		treeListCategoryNode.AddHeader("HoldButton");
+		HoldButton(treeListCategoryNode);
 	}
 
 	private static void CircleButton(TreeListCategoryNode treeListCategoryNode) {
@@ -173,6 +176,32 @@ public static class Buttons {
 				textNode.Text = $"Button Has Been Pressed: {clickCount} times";
 			},
 		};
+		
+		flexGrid.AddNode(textureButton);
+		flexGrid.AddNode(textNode);
+		
+		treeListCategoryNode.AddNode(flexGrid);
+	}
+	
+	private static void HoldButton(TreeListCategoryNode treeListCategoryNode) {
+		var flexGrid = GetContainer(treeListCategoryNode);
+		
+		var textNode = GetTextNode();
+		var clickCount = 0;
+		
+		// TextureButtons are buttons that load a part of an existing game texture
+		var textureButton = new HoldButtonNode {
+			Size = new Vector2(100.0f, 28.0f),
+			IsVisible = true,
+			
+			// All button nodes have a "OnClick" handler you can subscribe to
+			OnClick = () => {
+				clickCount++;
+				textNode.Text = $"Button Has Been Pressed: {clickCount} times";
+			},
+		};
+
+		textureButton.OnClick += () => textureButton.Reset();
 		
 		flexGrid.AddNode(textureButton);
 		flexGrid.AddNode(textNode);
