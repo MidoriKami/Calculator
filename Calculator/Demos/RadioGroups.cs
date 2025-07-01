@@ -51,5 +51,7 @@ public static class RadioGroups {
 
 		// Can add a negative tab amount
 		// tabList.AddNode(-1);
+		
+		radioGroupCategory.RecalculateLayout();
 	}
 }
