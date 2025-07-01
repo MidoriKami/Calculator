@@ -11,7 +11,7 @@ namespace Calculator.Demos;
 public static class DropDowns {
 	private static HorizontalFlexNode<NodeBase> GetContainer(TreeListCategoryNode treeListCategoryNode) => new() {
 		Width = treeListCategoryNode.Width,
-		Height = 250.0f,
+		Height = 28.0f,
 		AlignmentFlags = FlexFlags.FitWidth,
 		IsVisible = true,
 	};
