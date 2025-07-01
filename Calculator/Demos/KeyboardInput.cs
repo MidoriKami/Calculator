@@ -77,6 +77,15 @@ public static class KeyboardInput {
 			Size = new Vector2(200.0f, 28.0f),
 			IsVisible = true,
 
+			// Min Value
+			Min = -100,
+			
+			// Max value
+			Max = 100,
+			
+			// How much is added or subtracted when pressing + or -
+			Step = 2,
+			
 			// Event that is called when number is changed
 			OnValueUpdate = newValue => {
 				demoTextNode.Text = $"InputNumber: {newValue}";
