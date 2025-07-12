@@ -3,13 +3,12 @@ using Dalamud.Utility;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
-using KamiToolKit.System;
 using Lumina.Excel.Sheets;
 
 namespace Calculator.Demos;
 
 public static class DropDowns {
-	private static HorizontalFlexNode<NodeBase> GetContainer(TreeListCategoryNode treeListCategoryNode) => new() {
+	private static HorizontalFlexNode GetContainer(TreeListCategoryNode treeListCategoryNode) => new() {
 		Width = treeListCategoryNode.Width,
 		Height = 28.0f,
 		AlignmentFlags = FlexFlags.FitWidth,

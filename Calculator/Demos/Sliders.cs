@@ -3,12 +3,11 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
 using KamiToolKit.Nodes.Slider;
-using KamiToolKit.System;
 
 namespace Calculator.Demos;
 
 public static class Sliders {
-	private static HorizontalFlexNode<NodeBase> GetContainer(TreeListCategoryNode treeListCategoryNode) => new() {
+	private static HorizontalFlexNode GetContainer(TreeListCategoryNode treeListCategoryNode) => new() {
 		Width = treeListCategoryNode.Width,
 		AlignmentFlags = FlexFlags.CenterHorizontally | FlexFlags.FitContentHeight,
 		IsVisible = true,

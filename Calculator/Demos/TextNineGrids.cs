@@ -4,12 +4,11 @@ using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
-using KamiToolKit.System;
 
 namespace Calculator.Demos;
 
 public static class TextNineGrids {
-	private static HorizontalFlexNode<NodeBase> GetContainer(TreeListCategoryNode treeListCategoryNode) => new() {
+	private static HorizontalFlexNode GetContainer(TreeListCategoryNode treeListCategoryNode) => new() {
 		Width = treeListCategoryNode.Width,
 		AlignmentFlags = FlexFlags.FitContentHeight | FlexFlags.CenterVertically | FlexFlags.CenterHorizontally,
 		IsVisible = true,

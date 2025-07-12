@@ -5,12 +5,11 @@ using Dalamud.Interface;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
 using KamiToolKit.Nodes.Slider;
-using KamiToolKit.System;
 
 namespace Calculator.Demos;
 
 public static class ProgressBars {
-	private static HorizontalFlexNode<NodeBase> GetContainer(TreeListCategoryNode treeListCategoryNode) => new() {
+	private static HorizontalFlexNode GetContainer(TreeListCategoryNode treeListCategoryNode) => new() {
 		Width = treeListCategoryNode.Width / 2.0f,
 		AlignmentFlags = FlexFlags.CenterVertically | FlexFlags.CenterHorizontally | FlexFlags.FitContentHeight,
 		IsVisible = true,

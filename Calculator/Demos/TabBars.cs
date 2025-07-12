@@ -3,7 +3,6 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit;
 using KamiToolKit.Nodes;
 using KamiToolKit.Nodes.TabBar;
-using KamiToolKit.System;
 
 namespace Calculator.Demos;
 
@@ -16,7 +15,7 @@ public static class TabBars {
 	}
 
 	private static void TabBar(TreeListCategoryNode tabBarCategory) {
-		var container = new VerticalListNode<NodeBase> {
+		var container = new VerticalListNode {
 			Size = new Vector2(tabBarCategory.Width, 0.0f),
 			IsVisible = true,
 			FitContents = true,

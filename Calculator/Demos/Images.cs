@@ -5,12 +5,11 @@ using Dalamud.Interface;
 using KamiToolKit.Classes;
 using KamiToolKit.NodeParts;
 using KamiToolKit.Nodes;
-using KamiToolKit.System;
 
 namespace Calculator.Demos;
 
 public static class Images {
-	private static HorizontalFlexNode<NodeBase> GetContainer(TreeListCategoryNode treeListCategoryNode) => new() {
+	private static HorizontalFlexNode GetContainer(TreeListCategoryNode treeListCategoryNode) => new() {
 		Width = treeListCategoryNode.Width,
 		AlignmentFlags = FlexFlags.FitContentHeight | FlexFlags.CenterVertically | FlexFlags.CenterHorizontally,
 		IsVisible = true,

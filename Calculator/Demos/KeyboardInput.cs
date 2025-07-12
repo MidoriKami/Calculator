@@ -2,12 +2,11 @@
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
-using KamiToolKit.System;
 
 namespace Calculator.Demos;
 
 public static class KeyboardInput {
-	private static HorizontalFlexNode<NodeBase> GetContainer(TreeListCategoryNode treeListCategoryNode) => new() {
+	private static HorizontalFlexNode GetContainer(TreeListCategoryNode treeListCategoryNode) => new() {
 		Width = treeListCategoryNode.Width,
 		AlignmentFlags = FlexFlags.FitHeight | FlexFlags.CenterHorizontally | FlexFlags.FitContentHeight,
 		IsVisible = true,
