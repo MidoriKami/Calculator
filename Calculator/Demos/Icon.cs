@@ -1,5 +1,7 @@
 ﻿using System.Numerics;
+using FFXIVClientStructs.FFXIV.Client.System.String;
 using FFXIVClientStructs.FFXIV.Client.UI;
+using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Classes;
 using KamiToolKit.Extensions;
@@ -86,6 +88,7 @@ public static class Icons {
 				when Services.DataManager.GetExcelSheet<MainCommand>().TryGetRow((uint)payload.Int2, out var row):
 					node.Payload = payload;
 					node.IconId = (uint)row.Icon;
+					unsafe { node.IsIconDisabled = !UIModule.Instance()->IsMainCommandUnlocked((uint)payload.Int2); }
 					break;
 				}
 			},
@@ -105,6 +108,10 @@ public static class Icons {
 					switch(dragDropData.MouseButtonId) {
 					case 0:
 						Serilog.Log.Debug("[DragDropNode] Clicked left mouse button: {type} {int1} {int2}", payload.Type, payload.Int1, payload.Int2);
+						break;
+
+					case 1:
+						Serilog.Log.Debug("[DragDropNode] Clicked right mouse button: {type} {int1} {int2}", payload.Type, payload.Int1, payload.Int2);
 
 						switch(payload.Type) {
 						case DragDropType.MainCommand:
@@ -112,14 +119,36 @@ public static class Icons {
 							break;
 						}
 						break;
-
-					case 1:
-						Serilog.Log.Debug("[DragDropNode] Clicked right mouse button: {type} {int1} {int2}", payload.Type, payload.Int1, payload.Int2);
-						// you could open a context menu here
-						break;
 					}
 				}
-			}
+			},
+			OnRollOver = (node, data) => {
+				Serilog.Log.Debug("[DragDropNode] RollOver");
+				unsafe {
+					var addon = RaptureAtkUnitManager.Instance()->GetAddonByNode((AtkResNode*)node);
+					if (addon != null) {
+						var tooltipArgs = new AtkTooltipManager.AtkTooltipArgs();
+						tooltipArgs.Ctor();
+						tooltipArgs.TypeSpecificId = (ulong)node.Payload.Int2;
+						tooltipArgs.Unk_16 = (byte)ActionKind.MainCommand;
+
+						AtkStage.Instance()->TooltipManager.ShowTooltip(
+							AtkTooltipManager.AtkTooltipType.Action,
+							addon->Id,
+							(AtkResNode*)node.InternalComponentNode,
+							&tooltipArgs);
+					}
+				}
+			},
+			OnRollOut = (node, data) => {
+				Serilog.Log.Debug("[DragDropNode] RollOut");
+				unsafe {
+					var addon = RaptureAtkUnitManager.Instance()->GetAddonByNode((AtkResNode*)node);
+					if(addon != null) {
+						AtkStage.Instance()->TooltipManager.HideTooltip(addon->Id);
+					}
+				}
+			},
 		};
 
 		flexGrid.AddNode(dragDropNode);
