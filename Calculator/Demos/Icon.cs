@@ -118,7 +118,7 @@ public static class Icons {
 		};
 
 		flexGrid.AddNode(dragDropNode);
-		flexGrid.AddDummy(new ResNode(), 0.0f);
+		flexGrid.AddDummy();
 
 		treeListCategoryNode.AddNode(flexGrid);
 	}
