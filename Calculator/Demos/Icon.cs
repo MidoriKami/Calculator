@@ -67,6 +67,9 @@ public static class Icons {
 			// What category should this icon interact with
 			AcceptedType = DragDropType.Everything,
 			
+			// Set to false to prevent click-dragging
+			IsDraggable = true,
+			
 			// Payload information is what's used to set other drag drop slots.
 			Payload = new DragDropPayload {
 				
