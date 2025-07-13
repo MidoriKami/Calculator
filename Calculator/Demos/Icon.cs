@@ -82,13 +82,13 @@ public static class Icons {
 			OnPayloadAccepted = (node, data, payload) => {
 				Serilog.Log.Debug("[DragDropNode] Payload Accepted: {type} {int1} {int2}", payload.Type, payload.Int1, payload.Int2);
 
-				switch(payload.Type) {
-				case DragDropType.MainCommand
-				when Services.DataManager.GetExcelSheet<MainCommand>().TryGetRow((uint)payload.Int2, out var row):
-					node.Payload = payload;
+				if (payload.Type.Accepts(DragDropType.MainCommand)
+				&& Services.DataManager.GetExcelSheet<MainCommand>().TryGetRow((uint)payload.Int2, out var row)) {
+					// manually copy payload data to avoid pulling in DragDropType.ActionBar_MainCommand
+					node.Payload.Type = DragDropType.MainCommand;
+					node.Payload.Int2 = payload.Int2;
 					node.IconId = (uint)row.Icon;
 					unsafe { node.IsIconDisabled = !UIModule.Instance()->IsMainCommandUnlocked((uint)payload.Int2); }
-					break;
 				}
 			},
 			OnPayloadRejected = (node, data, payload) => {
