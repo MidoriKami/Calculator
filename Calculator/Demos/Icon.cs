@@ -82,6 +82,9 @@ public static class Icons {
 			OnPayloadAccepted = (node, data, payload) => {
 				Serilog.Log.Debug("[DragDropNode] Payload Accepted: {type} {int1} {int2}", payload.Type, payload.Int1, payload.Int2);
 
+				node.Payload.Clear();
+				node.IconId = 0;
+
 				if (payload.Type.Accepts(DragDropType.MainCommand)
 				&& Services.DataManager.GetExcelSheet<MainCommand>().TryGetRow((uint)payload.Int2, out var row)) {
 					// manually copy payload data to avoid pulling in DragDropType.ActionBar_MainCommand
