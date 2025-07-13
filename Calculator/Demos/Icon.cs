@@ -66,11 +66,11 @@ public static class Icons {
 			X = 20.0f,
 			Size = new Vector2(44.0f, 44.0f),
 			IsVisible = true,
-			IconId = 2, // Inventory
+			IconId = 2, // Inventory Icon
 			AcceptedType = DragDropType.MainCommand,
 			Payload = new DragDropPayload {
 				Type = DragDropType.MainCommand,
-				Int2 = 10,
+				Int2 = 10, // MainCommand.RowId of Inventory
 			},
 			IsClickable = true,
 			OnBegin = (node, data) => {
@@ -103,24 +103,22 @@ public static class Icons {
 				node.Payload.Clear();
 			},
 			OnClicked = (node, data) => {
-				unsafe {
-					var dragDropData = data.GetDragDropData();
+				var dragDropData = data.GetDragDropData();
 
-					switch(dragDropData.MouseButtonId) {
-					case 0:
-						Serilog.Log.Debug("[DragDropNode] Clicked left mouse button: {type} {int1} {int2}", node.Payload.Type, node.Payload.Int1, node.Payload.Int2);
-						break;
+				switch (dragDropData.MouseButtonId) {
+				case 0:
+					Serilog.Log.Debug("[DragDropNode] Clicked left mouse button: {type} {int1} {int2}", node.Payload.Type, node.Payload.Int1, node.Payload.Int2);
+					break;
 
-					case 1:
-						Serilog.Log.Debug("[DragDropNode] Clicked right mouse button: {type} {int1} {int2}", node.Payload.Type, node.Payload.Int1, node.Payload.Int2);
+				case 1:
+					Serilog.Log.Debug("[DragDropNode] Clicked right mouse button: {type} {int1} {int2}", node.Payload.Type, node.Payload.Int1, node.Payload.Int2);
 
-						switch(node.Payload.Type) {
-						case DragDropType.MainCommand:
-							UIModule.Instance()->ExecuteMainCommand((uint)node.Payload.Int2);
-							break;
-						}
+					switch(node.Payload.Type) {
+					case DragDropType.MainCommand:
+						unsafe { UIModule.Instance()->ExecuteMainCommand((uint)node.Payload.Int2); }
 						break;
 					}
+					break;
 				}
 			},
 			OnRollOver = (node, data) => {
