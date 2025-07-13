@@ -3,7 +3,6 @@ using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Classes;
-using KamiToolKit.Extensions;
 using KamiToolKit.Nodes;
 using Lumina.Excel.Sheets;
 
@@ -24,16 +23,12 @@ public static class Icons {
 		DragDropIcon(treeListCategoryNode);
 	}
 
-	public static void Icon(TreeListCategoryNode treeListCategoryNode) {
+	private static void Icon(TreeListCategoryNode treeListCategoryNode) {
 		var flexGrid = GetContainer(treeListCategoryNode);
 
 		// IconNode's are complex composite nodes involving a **lot** of data from the game
-		// These represent interactable icons that the game shows
-		// WARNING: WORK IN PROGRESS, INTERACTIONS MAY NOT BEHAVE AS EXPECTED
-		//
 		// If you only need to show a game icon, see IconImageNode or IconButtonNode
 		var iconNode = new IconNode {
-			X = 20.0f,
 			Size = new Vector2(44.0f, 44.0f),
 			IsVisible = true,
 			IconId = 2551,
@@ -58,100 +53,65 @@ public static class Icons {
 		treeListCategoryNode.AddNode(flexGrid);
 	}
 
-	private static void DragDropIcon(TreeListCategoryNode treeListCategoryNode) {
+	private static unsafe void DragDropIcon(TreeListCategoryNode treeListCategoryNode) {
 		var flexGrid = GetContainer(treeListCategoryNode);
 
 		// DragDropNode's are even more complex nodes for accepting and providing actions and icons
 		var dragDropNode = new DragDropNode {
-			X = 20.0f,
 			Size = new Vector2(44.0f, 44.0f),
 			IsVisible = true,
-			IconId = 2, // Inventory Icon
-			AcceptedType = DragDropType.MainCommand,
+			
+			// IconId to display (this example is the iconId of the MainCommand for Inventory)
+			IconId = 2,
+			
+			// What category should this icon interact with
+			AcceptedType = DragDropType.Everything,
+			
+			// Payload information is what's used to set other drag drop slots.
 			Payload = new DragDropPayload {
+				
+				// Type you want to set in target
 				Type = DragDropType.MainCommand,
-				Int2 = 10, // MainCommand.RowId of Inventory
+				
+				// Data id you want to set in target (this example is the MainCommand.RowId for the Inventory Main Command) 
+				Int2 = 10,
 			},
-			IsClickable = true,
-			OnBegin = (node, data) => {
-				Serilog.Log.Debug("[DragDropNode] DragDrop started");
-			},
-			OnEnd = (node, data) => {
-				Serilog.Log.Debug("[DragDropNode] DragDrop ended");
-			},
-			OnPayloadAccepted = (node, data, payload) => {
-				Serilog.Log.Debug("[DragDropNode] Payload Accepted: {type} {int1} {int2}", payload.Type, payload.Int1, payload.Int2);
 
-				node.Payload.Clear();
-				node.IconId = 0;
-
-				if (payload.Type.Accepts(DragDropType.MainCommand)
-				&& Services.DataManager.GetExcelSheet<MainCommand>().TryGetRow((uint)payload.Int2, out var row)) {
+			// Allow left-clicking to trigger OnClicked
+			IsClickable = false,
+			
+			// Event that is called when the button is moused over, this example shows a fancy tooltip for the action in the slot
+			OnRollOver = (node, _) => node.ShowTooltip(AtkTooltipManager.AtkTooltipType.Action, ActionKind.MainCommand),
+			
+			// Event that is called once the button is click-dragged
+			OnBegin = (_, _) => { },
+			
+			// Event that is called once the button is no longer being click-dragged
+			OnEnd = (_, _) => { },
+			
+			// Event that is called when a drag drop element is dropped into our node
+			// If this node's accepted type allows this payload, then OnPayloadAccepted is invoked
+			OnPayloadAccepted = (node, _, payload) => {
+				
+				// You will need to set this node to the correct data for the payload being received
+				
+				if (payload.Type.Accepts(DragDropType.MainCommand) && Services.DataManager.GetExcelSheet<MainCommand>().TryGetRow((uint)payload.Int2, out var row)) {
 					// manually copy payload data to avoid pulling in DragDropType.ActionBar_MainCommand
 					node.Payload.Type = DragDropType.MainCommand;
 					node.Payload.Int2 = payload.Int2;
 					node.IconId = (uint)row.Icon;
-					unsafe { node.IsIconDisabled = !UIModule.Instance()->IsMainCommandUnlocked((uint)payload.Int2); }
+					node.IsIconDisabled = !UIModule.Instance()->IsMainCommandUnlocked((uint)payload.Int2);
 				}
 			},
-			OnPayloadRejected = (node, data, payload) => {
-				Serilog.Log.Debug("[DragDropNode] Payload Rejected: {type} {int1} {int2}", payload.Type, payload.Int1, payload.Int2);
-			},
-			OnDiscard = (node, data) => {
-				Serilog.Log.Debug("[DragDropNode] Payload Discarded");
-				node.IconId = 0;
-				node.Payload.Clear();
-			},
-			OnClicked = (node, data) => {
-				var dragDropData = data.GetDragDropData();
+			
+			// Event that is fired when drag is dropped into the world to discard the thing
+			OnDiscard = (node, _) => node.Clear(),
+			
+			// Event that is fired when the button is clicked on
+			OnClicked = (node, _) => UIModule.Instance()->ExecuteMainCommand((uint)node.Payload.Int2),
 
-				switch (dragDropData.MouseButtonId) {
-				case 0:
-					Serilog.Log.Debug("[DragDropNode] Clicked left mouse button: {type} {int1} {int2}", node.Payload.Type, node.Payload.Int1, node.Payload.Int2);
-					break;
-
-				case 1:
-					Serilog.Log.Debug("[DragDropNode] Clicked right mouse button: {type} {int1} {int2}", node.Payload.Type, node.Payload.Int1, node.Payload.Int2);
-
-					switch(node.Payload.Type) {
-					case DragDropType.MainCommand:
-						unsafe { UIModule.Instance()->ExecuteMainCommand((uint)node.Payload.Int2); }
-						break;
-					}
-					break;
-				}
-			},
-			OnRollOver = (node, data) => {
-				Serilog.Log.Debug("[DragDropNode] RollOver");
-				unsafe {
-					if (AtkStage.Instance()->DragDropManager.IsDragging)
-						return;
-
-					var addon = RaptureAtkUnitManager.Instance()->GetAddonByNode((AtkResNode*)node);
-					if (addon == null)
-						return;
-
-					var tooltipArgs = new AtkTooltipManager.AtkTooltipArgs();
-					tooltipArgs.Ctor();
-					tooltipArgs.TypeSpecificId = (ulong)node.Payload.Int2;
-					tooltipArgs.Unk_16 = (byte)ActionKind.MainCommand;
-
-					AtkStage.Instance()->TooltipManager.ShowTooltip(
-						AtkTooltipManager.AtkTooltipType.Action,
-						addon->Id,
-						(AtkResNode*)node.InternalComponentNode,
-						&tooltipArgs);
-				}
-			},
-			OnRollOut = (node, data) => {
-				Serilog.Log.Debug("[DragDropNode] RollOut");
-				unsafe {
-					var addon = RaptureAtkUnitManager.Instance()->GetAddonByNode((AtkResNode*)node);
-					if(addon != null) {
-						AtkStage.Instance()->TooltipManager.HideTooltip(addon->Id);
-					}
-				}
-			},
+			// Event that is fired when the cursor is no longer hovering over the drag drop node
+			OnRollOut = (node, _) => node.HideTooltip(),
 		};
 
 		flexGrid.AddNode(dragDropNode);
