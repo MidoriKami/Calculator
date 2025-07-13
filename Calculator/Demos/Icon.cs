@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using FFXIVClientStructs.FFXIV.Client.System.String;
 using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
@@ -103,19 +102,18 @@ public static class Icons {
 			OnClicked = (node, data) => {
 				unsafe {
 					var dragDropData = data.GetDragDropData();
-					var payload = DragDropPayload.FromDragDropInterface(dragDropData.DragDropInterface);
 
 					switch(dragDropData.MouseButtonId) {
 					case 0:
-						Serilog.Log.Debug("[DragDropNode] Clicked left mouse button: {type} {int1} {int2}", payload.Type, payload.Int1, payload.Int2);
+						Serilog.Log.Debug("[DragDropNode] Clicked left mouse button: {type} {int1} {int2}", node.Payload.Type, node.Payload.Int1, node.Payload.Int2);
 						break;
 
 					case 1:
-						Serilog.Log.Debug("[DragDropNode] Clicked right mouse button: {type} {int1} {int2}", payload.Type, payload.Int1, payload.Int2);
+						Serilog.Log.Debug("[DragDropNode] Clicked right mouse button: {type} {int1} {int2}", node.Payload.Type, node.Payload.Int1, node.Payload.Int2);
 
-						switch(payload.Type) {
+						switch(node.Payload.Type) {
 						case DragDropType.MainCommand:
-							UIModule.Instance()->ExecuteMainCommand((uint)payload.Int2);
+							UIModule.Instance()->ExecuteMainCommand((uint)node.Payload.Int2);
 							break;
 						}
 						break;
@@ -125,19 +123,23 @@ public static class Icons {
 			OnRollOver = (node, data) => {
 				Serilog.Log.Debug("[DragDropNode] RollOver");
 				unsafe {
-					var addon = RaptureAtkUnitManager.Instance()->GetAddonByNode((AtkResNode*)node);
-					if (addon != null) {
-						var tooltipArgs = new AtkTooltipManager.AtkTooltipArgs();
-						tooltipArgs.Ctor();
-						tooltipArgs.TypeSpecificId = (ulong)node.Payload.Int2;
-						tooltipArgs.Unk_16 = (byte)ActionKind.MainCommand;
+					if (AtkStage.Instance()->DragDropManager.IsDragging)
+						return;
 
-						AtkStage.Instance()->TooltipManager.ShowTooltip(
-							AtkTooltipManager.AtkTooltipType.Action,
-							addon->Id,
-							(AtkResNode*)node.InternalComponentNode,
-							&tooltipArgs);
-					}
+					var addon = RaptureAtkUnitManager.Instance()->GetAddonByNode((AtkResNode*)node);
+					if (addon == null)
+						return;
+
+					var tooltipArgs = new AtkTooltipManager.AtkTooltipArgs();
+					tooltipArgs.Ctor();
+					tooltipArgs.TypeSpecificId = (ulong)node.Payload.Int2;
+					tooltipArgs.Unk_16 = (byte)ActionKind.MainCommand;
+
+					AtkStage.Instance()->TooltipManager.ShowTooltip(
+						AtkTooltipManager.AtkTooltipType.Action,
+						addon->Id,
+						(AtkResNode*)node.InternalComponentNode,
+						&tooltipArgs);
 				}
 			},
 			OnRollOut = (node, data) => {
