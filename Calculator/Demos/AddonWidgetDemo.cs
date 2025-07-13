@@ -57,7 +57,7 @@ public class AddonWidgetDemo : NativeAddon {
 		
 		// When attaching nodes, KamiToolKit will attempt to register events and data from its parent, and then pass that to the children
 		// This means that it *should* work no matter what order you attach things in, as long as eventually something is attached to native
-		NativeController.AttachNode(treeListNode, scrollingAreaNode.ContentNode);
+		AttachNode(treeListNode, scrollingAreaNode.ContentNode);
 		
 		Buttons.ButtonDemo(buttonCategory);
 		
