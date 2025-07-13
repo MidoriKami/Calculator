@@ -4,6 +4,7 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Classes;
 using KamiToolKit.Extensions;
 using KamiToolKit.Nodes;
+using Lumina.Excel.Sheets;
 
 namespace Calculator.Demos;
 
@@ -65,6 +66,7 @@ public static class Icons {
 			Size = new Vector2(44.0f, 44.0f),
 			IsVisible = true,
 			IconId = 2, // Inventory
+			AcceptedType = DragDropType.MainCommand,
 			Payload = new DragDropPayload {
 				Type = DragDropType.MainCommand,
 				Int2 = 10,
@@ -78,34 +80,46 @@ public static class Icons {
 			},
 			OnPayloadAccepted = (node, data, payload) => {
 				Serilog.Log.Debug("[DragDropNode] Payload Accepted: {type} {int1} {int2}", payload.Type, payload.Int1, payload.Int2);
+
+				switch(payload.Type) {
+				case DragDropType.MainCommand
+				when Services.DataManager.GetExcelSheet<MainCommand>().TryGetRow((uint)payload.Int2, out var row):
+					node.Payload.Type = DragDropType.MainCommand;
+					node.Payload.Int2 = payload.Int2;
+					node.IconId = (uint)row.Icon;
+					break;
+				}
 			},
 			OnPayloadRejected = (node, data, payload) => {
 				Serilog.Log.Debug("[DragDropNode] Payload Rejected: {type} {int1} {int2}", payload.Type, payload.Int1, payload.Int2);
 			},
 			OnDiscard = (node, data) => {
 				Serilog.Log.Debug("[DragDropNode] Payload Discarded");
+				node.IconId = 0;
+				node.Payload.Clear();
 			},
 			OnClicked = (node, data) => {
-				var dragDropData = data.GetDragDropData();
+				unsafe {
+					var dragDropData = data.GetDragDropData();
+					var dragDropType = dragDropData.DragDropInterface->DragDropType;
+					var payloadContainer = dragDropData.DragDropInterface->GetPayloadContainer();
 
-				switch(dragDropData.MouseButtonId) {
-				case 0:
-					Serilog.Log.Debug("[DragDropNode] Clicked left mouse button");
+					switch(dragDropData.MouseButtonId) {
+					case 0:
+						Serilog.Log.Debug("[DragDropNode] Clicked left mouse button: {type} {int1} {int2}", dragDropType, payloadContainer->Int1, payloadContainer->Int2);
 
-					unsafe {
-						// just for verbosity. you could also just call ExecuteMainCommand(10) directly
-						switch(dragDropData.DragDropInterface->DragDropType) {
+						switch(dragDropType) {
 						case DragDropType.MainCommand:
-							UIModule.Instance()->ExecuteMainCommand((uint)dragDropData.DragDropInterface->GetPayloadContainer()->Int2);
+							UIModule.Instance()->ExecuteMainCommand((uint)payloadContainer->Int2);
 							break;
 						}
-					}
-					break;
+						break;
 
-				case 1:
-					Serilog.Log.Debug("[DragDropNode] Clicked right mouse button");
-					// you could open a context menu here
-					break;
+					case 1:
+						Serilog.Log.Debug("[DragDropNode] Clicked right mouse button: {type} {int1} {int2}", dragDropType, payloadContainer->Int1, payloadContainer->Int2);
+						// you could open a context menu here
+						break;
+					}
 				}
 			}
 		};
