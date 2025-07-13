@@ -85,9 +85,10 @@ public sealed class CalculatorPlugin : IDalamudPlugin {
 // A simple static class for storing any dalamud services that we might want, and for storing any objects that we'll need
 public class Services {
     [PluginService] public static ICommandManager CommandManager { get; set; } = null!;
-    [PluginService] public static IDalamudPluginInterface PluginInterface { get; set; } = null!;
-    
-    public static NativeController NativeController { get; set; } = null!;
+	[PluginService] public static IDalamudPluginInterface PluginInterface { get; set; } = null!;
+	[PluginService] public static IDataManager DataManager { get; set; } = null!;
+
+	public static NativeController NativeController { get; set; } = null!;
     public static AddonCalculator AddonCalculator { get; set; } = null!;
     public static AddonWidgetDemo AddonWidgetDemo { get; set; } = null!;
 }
