@@ -84,8 +84,7 @@ public static class Icons {
 				switch(payload.Type) {
 				case DragDropType.MainCommand
 				when Services.DataManager.GetExcelSheet<MainCommand>().TryGetRow((uint)payload.Int2, out var row):
-					node.Payload.Type = DragDropType.MainCommand;
-					node.Payload.Int2 = payload.Int2;
+					node.Payload = payload;
 					node.IconId = (uint)row.Icon;
 					break;
 				}
@@ -101,22 +100,21 @@ public static class Icons {
 			OnClicked = (node, data) => {
 				unsafe {
 					var dragDropData = data.GetDragDropData();
-					var dragDropType = dragDropData.DragDropInterface->DragDropType;
-					var payloadContainer = dragDropData.DragDropInterface->GetPayloadContainer();
+					var payload = DragDropPayload.FromDragDropInterface(dragDropData.DragDropInterface);
 
 					switch(dragDropData.MouseButtonId) {
 					case 0:
-						Serilog.Log.Debug("[DragDropNode] Clicked left mouse button: {type} {int1} {int2}", dragDropType, payloadContainer->Int1, payloadContainer->Int2);
+						Serilog.Log.Debug("[DragDropNode] Clicked left mouse button: {type} {int1} {int2}", payload.Type, payload.Int1, payload.Int2);
 
-						switch(dragDropType) {
+						switch(payload.Type) {
 						case DragDropType.MainCommand:
-							UIModule.Instance()->ExecuteMainCommand((uint)payloadContainer->Int2);
+							UIModule.Instance()->ExecuteMainCommand((uint)payload.Int2);
 							break;
 						}
 						break;
 
 					case 1:
-						Serilog.Log.Debug("[DragDropNode] Clicked right mouse button: {type} {int1} {int2}", dragDropType, payloadContainer->Int1, payloadContainer->Int2);
+						Serilog.Log.Debug("[DragDropNode] Clicked right mouse button: {type} {int1} {int2}", payload.Type, payload.Int1, payload.Int2);
 						// you could open a context menu here
 						break;
 					}
