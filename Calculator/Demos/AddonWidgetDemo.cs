@@ -35,6 +35,9 @@ public class AddonWidgetDemo : NativeAddon {
 			// Content Height is how tall you want the entire scrolling area to be 
 			ContentHeight = 2000.0f,
 			
+			// Sets how much the node should move for each tick of scroll (default 24)
+			ScrollSpeed = 75,
+			
 			IsVisible = true,
 		});
 		
