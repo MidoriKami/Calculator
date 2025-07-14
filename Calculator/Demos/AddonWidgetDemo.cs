@@ -26,7 +26,7 @@ public class AddonWidgetDemo : NativeAddon {
 	
 	protected override unsafe void OnSetup(AtkUnitBase* addon) {
 		// ScrollingAreaNode Demo, creates a content node that you can attach your elements to and will scroll the contents
-		NativeController.AttachNode(scrollingAreaNode = new ScrollingAreaNode {
+		AttachNode(scrollingAreaNode = new ScrollingAreaNode {
 			
 			// Size and Position is the area that you want to be visible
 			Position = ContentStartPosition,
@@ -36,7 +36,7 @@ public class AddonWidgetDemo : NativeAddon {
 			ContentHeight = 2000.0f,
 			
 			IsVisible = true,
-		}, this);
+		});
 		
 		// Creates a new treelist node that will contain all of our custom category nodes
 		treeListNode = new TreeListNode {
