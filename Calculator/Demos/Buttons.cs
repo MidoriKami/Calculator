@@ -47,7 +47,6 @@ public static class Buttons {
 		
 		// A circle button node is a button node that uses one the games default circle textures
 		var circleButton = new CircleButtonNode {
-			X = 20.0f,
 			Size = new Vector2(48.0f, 48.0f),
 			IsVisible = true,
 

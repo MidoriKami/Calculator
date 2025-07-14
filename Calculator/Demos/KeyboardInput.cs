@@ -72,7 +72,6 @@ public static class KeyboardInput {
 		
 		// Numeric Inputs are for getting numbers from the user
 		var numericInputNode = new NumericInputNode {
-			X = 20.0f,
 			Size = new Vector2(200.0f, 28.0f),
 			IsVisible = true,
 

@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using FFXIVClientStructs.FFXIV.Component.GUI;
+﻿using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Addon;
 using KamiToolKit.Nodes;
 
@@ -36,14 +35,13 @@ public class AddonWidgetDemo : NativeAddon {
 			ContentHeight = 2000.0f,
 			
 			// Sets how much the node should move for each tick of scroll (default 24)
-			ScrollSpeed = 75,
+			ScrollSpeed = 100,
 			
 			IsVisible = true,
 		});
 		
 		// Creates a new treelist node that will contain all of our custom category nodes
 		treeListNode = new TreeListNode {
-			Position = new Vector2(0.0f, 0.0f), 
 			Size = scrollingAreaNode.ContentNode.Size,
 			IsVisible = true,
 			
