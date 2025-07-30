@@ -6,8 +6,7 @@ namespace Calculator.Demos;
 
 public class AddonWidgetDemo : NativeAddon {
 	
-	private ScrollingAreaNode? scrollingAreaNode;
-	private TreeListNode? treeListNode;
+	private ScrollingAreaNode<TreeListNode>? scrollingAreaNode;
 	private TreeListCategoryNode? buttonCategory;
 	private TreeListCategoryNode? dropDownCategory;
 	private TreeListCategoryNode? iconCategory;
@@ -25,7 +24,7 @@ public class AddonWidgetDemo : NativeAddon {
 	
 	protected override unsafe void OnSetup(AtkUnitBase* addon) {
 		// ScrollingAreaNode Demo, creates a content node that you can attach your elements to and will scroll the contents
-		AttachNode(scrollingAreaNode = new ScrollingAreaNode {
+		AttachNode(scrollingAreaNode = new ScrollingAreaNode<TreeListNode> {
 			
 			// Size and Position is the area that you want to be visible
 			Position = ContentStartPosition,
@@ -35,30 +34,21 @@ public class AddonWidgetDemo : NativeAddon {
 			ContentHeight = 2000.0f,
 			
 			// Sets how much the node should move for each tick of scroll (default 24)
-			ScrollSpeed = 100,
+			ScrollSpeed = 25,
 			
 			IsVisible = true,
 		});
-		
-		// Creates a new treelist node that will contain all of our custom category nodes
-		treeListNode = new TreeListNode {
-			Size = scrollingAreaNode.ContentNode.Size,
-			IsVisible = true,
-			
-			// We can set an event to change the size of our scrolling area, depending on if the trees are collapsed
-			OnLayoutUpdate = newHeight => scrollingAreaNode.ContentHeight = newHeight,
-		};
-		
+
+		scrollingAreaNode.ContentNode.OnLayoutUpdate = newHeight => scrollingAreaNode.ContentHeight = newHeight;
+
+		var treeListNode = scrollingAreaNode.ContentAreaNode;
+
 		// We add each category directly from the root tree node
 		treeListNode.AddCategoryNode(buttonCategory = new TreeListCategoryNode {
 			IsVisible = true,
 			IsCollapsed = true,
 			Label = "Button",
 		});
-		
-		// When attaching nodes, KamiToolKit will attempt to register events and data from its parent, and then pass that to the children
-		// This means that it *should* work no matter what order you attach things in, as long as eventually something is attached to native
-		AttachNode(treeListNode, scrollingAreaNode.ContentNode);
 		
 		Buttons.ButtonDemo(buttonCategory);
 		
