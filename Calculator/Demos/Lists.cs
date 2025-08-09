@@ -34,6 +34,9 @@ public static class Lists {
 		var flexGrid = GetContainer(treeListCategoryNode);
 		var textNode = GetTextNode();
 		
+		flexGrid.Height = 100.0f;
+		textNode.Height = 100.0f;
+		
 		// Basic text list node, you can set various text options that the user can select
 		// Note: the number of buttons generated is dependent on the higher of the dropdown element
 		var textListNode = new TextListNode {
