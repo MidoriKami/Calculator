@@ -26,18 +26,18 @@ public static class TabBars {
 		};
 
 		var textNode1 = new TextNode {
-			TextFlags = TextFlags.AutoAdjustNodeSize, Text = "First Tab Element", IsVisible = true,
+			TextFlags = TextFlags.AutoAdjustNodeSize, String = "First Tab Element", IsVisible = true,
 		};
 		
 		var textNode2 = new TextNode {
-			TextFlags = TextFlags.AutoAdjustNodeSize, Text = "Second Tab Element", IsVisible = false, 
+			TextFlags = TextFlags.AutoAdjustNodeSize, String = "Second Tab Element", IsVisible = false, 
 		};
 		
 		var textNode3 = new TextNode {
-			TextFlags = TextFlags.AutoAdjustNodeSize, Text = "Third Tab Element", IsVisible = false, 
+			TextFlags = TextFlags.AutoAdjustNodeSize, String = "Third Tab Element", IsVisible = false, 
 		};
 		
-		// The tab bar itself is a very simple node, it only provides the ability to .AddTab with a label
+		// The tab bar itself is a very simple node, it only provides the ability to .AddTab with a String
 		// and to set up onclick events when a tab is clicked
 		var tabBar = new TabBarNode {
 			Size = new Vector2(tabBarCategory.Width, 24.0f), 

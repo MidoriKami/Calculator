@@ -30,7 +30,7 @@ public static class TextNineGrids {
 			Size = new Vector2(150.0f, 26.0f),
 			
 			// Value to show
-			Label = "Some Text Label, 69.420",
+			String = "Some Text String, 69.420",
 
 			// Font type to use
 			FontType = FontType.TrumpGothic,

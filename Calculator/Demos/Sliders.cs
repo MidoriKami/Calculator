@@ -16,7 +16,7 @@ public static class Sliders {
 	private static TextNode GetTextNode() => new() {
 		TextFlags = TextFlags.AutoAdjustNodeSize,
 		AlignmentType = AlignmentType.Left,
-		Text = "No option selected",
+		String = "No option selected",
 		Height = 32.0f,
 	};
 
@@ -41,7 +41,7 @@ public static class Sliders {
 			Max = 30,
 
 			// Event that is called when the value changes
-			OnValueChanged = newValue => textNode.Text = $"Value: {newValue}",
+			OnValueChanged = newValue => textNode.String = $"Value: {newValue}",
 		};
 		
 		flexGrid.AddNode(sliderNode);

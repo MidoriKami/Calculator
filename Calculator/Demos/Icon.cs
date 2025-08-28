@@ -41,7 +41,7 @@ public static class Icons {
 			Position = new Vector2(100.0f, 0.0f),
 			Size = new Vector2(150.0f, 28.0f),
 			IsVisible = true,
-			Label = "Toggle Icon Enabled",
+			String = "Toggle Icon Enabled",
 			OnClick = () => {
 				iconNode.IsIconDisabled = !iconNode.IsIconDisabled;
 			},

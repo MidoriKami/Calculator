@@ -19,7 +19,7 @@ public static class DropDowns {
 		TextFlags = TextFlags.AutoAdjustNodeSize,
 		AlignmentType = AlignmentType.Left,
 		Height = 28.0f,
-		Text = "No option selected",
+		String = "No option selected",
 	};
 	
 	public static void DropDownDemo(TreeListCategoryNode treeListCategoryNode) {
@@ -58,7 +58,7 @@ public static class DropDowns {
 
 			// DropDown's provide an OnOptionSelected callback to trigger doing something when the user selects an option
 			OnOptionSelected = option => {
-				textNode.Text = $"Option Selected: {option}";
+				textNode.String = $"Option Selected: {option}";
 			},
 		};
 		
@@ -91,7 +91,7 @@ public static class DropDowns {
 			
 			// Finally, our callback will give us a reference to the full lumina object that represents the option the user chose
 			OnOptionSelected = option => {
-				textNode.Text = $"Option Selected: {option.AethernetName.Value.Name.ExtractText()}";
+				textNode.String = $"Option Selected: {option.AethernetName.Value.Name.ExtractText()}";
 			},
 		};
 		

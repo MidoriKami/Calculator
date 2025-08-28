@@ -116,8 +116,8 @@ public class TextBox : ResNode {
     }
 
     public string Value {
-        get => resultText.Text.ToString();
-        set => resultText.Text = value;
+        get => resultText.String;
+        set => resultText.String = value;
     }
     
     // Override Width property to have it set the width of our individual parts
@@ -189,7 +189,7 @@ public class AddonCalculator : NativeAddon {
             Position = new Vector2(xPos, yPos), 
             Size = new Vector2(UnitSize * 2.0f + UnitPadding, UnitSize), 
             IsVisible = true, 
-            Label = "0",
+            String = "0",
         };
         
         number0.AddEvent(AddonEventType.ButtonClick, _ => EditNumber(0));
@@ -207,7 +207,7 @@ public class AddonCalculator : NativeAddon {
             Position = new Vector2(xPos, yPos),
             Size = new Vector2(UnitSize, UnitSize),
             IsVisible = true,
-            Label = "=",
+            String = "=",
         };
         
         enter.AddEvent(AddonEventType.ButtonClick, _ => {
@@ -233,7 +233,7 @@ public class AddonCalculator : NativeAddon {
             Position = new Vector2(xPos, yPos),
             Size = new Vector2(UnitSize, UnitSize),
             IsVisible = true,
-            Label = "+",
+            String = "+",
         };
         
         add.AddEvent(AddonEventType.ButtonClick, _ => {
@@ -252,7 +252,7 @@ public class AddonCalculator : NativeAddon {
             Position = new Vector2(xPos, yPos), 
             Size = new Vector2(UnitSize, UnitSize), 
             IsVisible = true, 
-            Label = "1",
+            String = "1",
         };
         
         number1.AddEvent(AddonEventType.ButtonClick, _ => EditNumber(1));
@@ -264,7 +264,7 @@ public class AddonCalculator : NativeAddon {
             Position = new Vector2(xPos, yPos),
             Size = new Vector2(UnitSize, UnitSize),
             IsVisible = true,
-            Label = "2",
+            String = "2",
         };
         
         number2.AddEvent(AddonEventType.ButtonClick, _ => EditNumber(2));
@@ -276,7 +276,7 @@ public class AddonCalculator : NativeAddon {
             Position = new Vector2(xPos, yPos),
             Size = new Vector2(UnitSize, UnitSize),
             IsVisible = true,
-            Label = "3",
+            String = "3",
         };
         
         number3.AddEvent(AddonEventType.ButtonClick, _ => EditNumber(3));
@@ -288,7 +288,7 @@ public class AddonCalculator : NativeAddon {
             Position = new Vector2(xPos, yPos),
             Size = new Vector2(UnitSize, UnitSize),
             IsVisible = true,
-            Label = "-",
+            String = "-",
         };
         
         subtract.AddEvent(AddonEventType.ButtonClick, _ => {
@@ -307,7 +307,7 @@ public class AddonCalculator : NativeAddon {
             Position = new Vector2(xPos, yPos),
             Size = new Vector2(UnitSize, UnitSize),
             IsVisible = true,
-            Label = "4",
+            String = "4",
         };
         
         number4.AddEvent(AddonEventType.ButtonClick, _ => EditNumber(4));
@@ -319,7 +319,7 @@ public class AddonCalculator : NativeAddon {
             Position = new Vector2(xPos, yPos),
             Size = new Vector2(UnitSize, UnitSize),
             IsVisible = true,
-            Label = "5",
+            String = "5",
         };
         
         number5.AddEvent(AddonEventType.ButtonClick, _ => EditNumber(5));
@@ -331,7 +331,7 @@ public class AddonCalculator : NativeAddon {
             Position = new Vector2(xPos, yPos),
             Size = new Vector2(UnitSize, UnitSize),
             IsVisible = true,
-            Label = "6",
+            String = "6",
         };
         
         number6.AddEvent(AddonEventType.ButtonClick, _ => EditNumber(6));
@@ -343,7 +343,7 @@ public class AddonCalculator : NativeAddon {
             Position = new Vector2(xPos, yPos),
             Size = new Vector2(UnitSize, UnitSize),
             IsVisible = true,
-            Label = "X",
+            String = "X",
         };
         
         multiply.AddEvent(AddonEventType.ButtonClick, _ => {
@@ -362,7 +362,7 @@ public class AddonCalculator : NativeAddon {
             Position = new Vector2(xPos, yPos),
             Size = new Vector2(UnitSize, UnitSize),
             IsVisible = true,
-            Label = "7",
+            String = "7",
         };
         
         number7.AddEvent(AddonEventType.ButtonClick, _ => EditNumber(7));
@@ -374,7 +374,7 @@ public class AddonCalculator : NativeAddon {
             Position = new Vector2(xPos, yPos),
             Size = new Vector2(UnitSize, UnitSize),
             IsVisible = true,
-            Label = "8",
+            String = "8",
         };
         
         number8.AddEvent(AddonEventType.ButtonClick, _ => EditNumber(8));
@@ -386,7 +386,7 @@ public class AddonCalculator : NativeAddon {
             Position = new Vector2(xPos, yPos),
             Size = new Vector2(UnitSize, UnitSize),
             IsVisible = true,
-            Label = "9",
+            String = "9",
         };
         
         number9.AddEvent(AddonEventType.ButtonClick, _ => EditNumber(9));
@@ -398,7 +398,7 @@ public class AddonCalculator : NativeAddon {
             Position = new Vector2(xPos, yPos),
             Size = new Vector2(UnitSize, UnitSize),
             IsVisible = true,
-            Label = "/",
+            String = "/",
         };
         
         divide.AddEvent(AddonEventType.ButtonClick, _ => {

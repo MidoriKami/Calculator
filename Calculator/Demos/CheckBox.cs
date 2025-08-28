@@ -38,7 +38,7 @@ public static class CheckBoxes {
 			IsEnabled = true,
 			
 			// Text to show next to the button
-			LabelText = "Some awesome checkbox",
+			String = "Some awesome checkbox",
 			
 			// Event that is called when the checkbox state is changed
 			OnClick = newState => statusText.String = newState ? "Checked" : "Unchecked",
@@ -47,7 +47,7 @@ public static class CheckBoxes {
 		var enableDisableButton = new TextButtonNode {
 			Size = new Vector2(150.0f, 28.0f),
 			IsVisible = true,
-			Label = "Toggle Enabled",
+			String = "Toggle Enabled",
 			OnClick = () => checkBox.IsEnabled = !checkBox.IsEnabled,
 		};
 		

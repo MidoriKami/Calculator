@@ -55,7 +55,7 @@ public static class ProgressBars {
 		var randomColorButton = new TextButtonNode {
 			Size = new Vector2(150.0f, 32.0f),
 			IsVisible = true,
-			Label = "Randomize Color",
+			String = "Randomize Color",
 			OnClick = () => {
 				var rng = new Random();
 				castBarNode.BarColor = new Vector4(rng.Next() % 255, rng.Next() % 255, rng.Next() % 255, 255) / 255.0f;
@@ -98,7 +98,7 @@ public static class ProgressBars {
 		var randomColorButton = new TextButtonNode {
 			Size = new Vector2(150.0f, 32.0f),
 			IsVisible = true,
-			Label = "Randomize Color",
+			String = "Randomize Color",
 			OnClick = () => {
 				var rng = new Random();
 				castBarNode.BarColor = new Vector4(rng.Next() % 255, rng.Next() % 255, rng.Next() % 255, 1);

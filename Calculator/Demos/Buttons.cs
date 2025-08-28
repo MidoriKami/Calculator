@@ -16,7 +16,7 @@ public static class Buttons {
 	private static TextNode GetTextNode() => new() {
 		TextFlags = TextFlags.AutoAdjustNodeSize,
 		AlignmentType = AlignmentType.Left,
-		Text = "Button Has Been Pressed: 0 times",
+		String = "Button Has Been Pressed: 0 times",
 	};
 
 	public static void ButtonDemo(TreeListCategoryNode treeListCategoryNode) {
@@ -56,7 +56,7 @@ public static class Buttons {
 			// All button nodes have a "OnClick" handler you can subscribe to
 			OnClick = () => {
 				clickCount++;
-				textNode.Text = $"Button Has Been Pressed: {clickCount} times";
+				textNode.String = $"Button Has Been Pressed: {clickCount} times";
 			},
 		};
 		
@@ -83,7 +83,7 @@ public static class Buttons {
 			// All button nodes have a "OnClick" handler you can subscribe to
 			OnClick = () => {
 				clickCount++;
-				textNode.Text = $"Button Has Been Pressed: {clickCount} times";
+				textNode.String = $"Button Has Been Pressed: {clickCount} times";
 			},
 		};
 		
@@ -110,7 +110,7 @@ public static class Buttons {
 			// All button nodes have a "OnClick" handler you can subscribe to
 			OnClick = () => {
 				clickCount++;
-				textNode.Text = $"Button Has Been Pressed: {clickCount} times";
+				textNode.String = $"Button Has Been Pressed: {clickCount} times";
 			},
 		};
 		
@@ -126,18 +126,18 @@ public static class Buttons {
 		var textNode = GetTextNode();
 		var clickCount = 0;
 		
-		// TextButtons's are a standard button with a text label
+		// TextButtons's are a standard button with a text String
 		var textButton = new TextButtonNode {
 			Size = new Vector2(200.0f, 28.0f),
 			IsVisible = true,
 
 			// Here we set the text string to use, this does support SeString
-			Label = "BIG RED BUTTON",
+			String = "BIG RED BUTTON",
 
 			// All button nodes have a "OnClick" handler you can subscribe to
 			OnClick = () => {
 				clickCount++;
-				textNode.Text = $"Button Has Been Pressed: {clickCount} times";
+				textNode.String = $"Button Has Been Pressed: {clickCount} times";
 			},
 		};
 		
@@ -171,7 +171,7 @@ public static class Buttons {
 			// All button nodes have a "OnClick" handler you can subscribe to
 			OnClick = () => {
 				clickCount++;
-				textNode.Text = $"Button Has Been Pressed: {clickCount} times";
+				textNode.String = $"Button Has Been Pressed: {clickCount} times";
 			},
 		};
 		
@@ -195,7 +195,7 @@ public static class Buttons {
 			// All button nodes have a "OnClick" handler you can subscribe to
 			OnClick = () => {
 				clickCount++;
-				textNode.Text = $"Button Has Been Pressed: {clickCount} times";
+				textNode.String = $"Button Has Been Pressed: {clickCount} times";
 			},
 		};
 

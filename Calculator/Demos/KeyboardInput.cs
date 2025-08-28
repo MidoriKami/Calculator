@@ -27,7 +27,7 @@ public static class KeyboardInput {
 		var demoTextNode = new TextNode {
 			Position = new Vector2(250.0f, 0.0f),
 			Size = new Vector2(300.0f, 28.0f),
-			Text = $"InputText: {inputString}",
+			String = $"InputText: {inputString}",
 			AlignmentType = AlignmentType.Left,
 		};
 		
@@ -45,13 +45,13 @@ public static class KeyboardInput {
 			// Event that is called with each key pressed
 			OnInputReceived = newString => {
 				inputString = newString.ToString();
-				demoTextNode.Text = $"InputText: {inputString}";
+				demoTextNode.String = $"InputText: {inputString}";
 			},
 
 			// Event that is called when return or escape is pressed
 			OnInputComplete = newString => {
 				inputString = newString.ToString();
-				demoTextNode.Text = $"InputText: {inputString}, Input is complete!";
+				demoTextNode.String = $"InputText: {inputString}, Input is complete!";
 			},
 		};
 		
@@ -66,7 +66,7 @@ public static class KeyboardInput {
 		var demoTextNode = new TextNode {
 			Position = new Vector2(250.0f, 0.0f),
 			Size = new Vector2(300.0f, 28.0f),
-			Text = $"InputNumber: Not Set",
+			String = "InputNumber: Not Set",
 			AlignmentType = AlignmentType.Left,
 		};
 		
@@ -86,7 +86,7 @@ public static class KeyboardInput {
 			
 			// Event that is called when number is changed
 			OnValueUpdate = newValue => {
-				demoTextNode.Text = $"InputNumber: {newValue}";
+				demoTextNode.String = $"InputNumber: {newValue}";
 			},
 		};
 		

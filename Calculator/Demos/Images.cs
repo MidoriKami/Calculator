@@ -130,7 +130,7 @@ public static class Images {
 		var swapPartButton = new TextButtonNode {
 			Size = new Vector2(150.0f, 28.0f),
 			IsVisible = true,
-			Label = "Swap Part Id",
+			String = "Swap Part Id",
 			OnClick = () => {
 				imageNode.PartId = (uint) (imageNode.PartId is 0 ? 1 : 0);
 			},

@@ -18,7 +18,7 @@ public static class Lists {
 	private static TextNode GetTextNode() => new() {
 		TextFlags = TextFlags.AutoAdjustNodeSize,
 		AlignmentType = AlignmentType.Left,
-		Text = "No option selected",
+		String = "No option selected",
 		Height = 200.0f,
 	};
 	
@@ -61,7 +61,7 @@ public static class Lists {
 
 			// Lists provide an OnOptionSelected callback to trigger doing something when the user selects an option
 			OnOptionSelected = option => {
-				textNode.Text = $"Option Selected: {option}";
+				textNode.String = $"Option Selected: {option}";
 			},
 		};
 		
@@ -91,7 +91,7 @@ public static class Lists {
 
 			// Finally, our callback will give us a reference to the full lumina object that represents the option the user chose
 			OnOptionSelected = option => {
-				textNode.Text = $"Option Selected: {option.AethernetName.Value.Name.ExtractText()}";
+				textNode.String = $"Option Selected: {option.AethernetName.Value.Name.ExtractText()}";
 			},
 		};
 		
