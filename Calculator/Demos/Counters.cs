@@ -48,8 +48,7 @@ public static class Counters {
 		var slider = new SliderNode {
 			Size = new Vector2(200.0f, 32.0f), 
 			IsVisible = true,
-			Min = 0,
-			Max = int.MaxValue,
+			Range = .. int.MaxValue,
 			OnValueChanged = newValue => counter.Number = newValue,
 		};
 		
@@ -73,8 +72,7 @@ public static class Counters {
 		var slider = new SliderNode {
 			Size = new Vector2(200.0f, 32.0f), 
 			IsVisible = true,
-			Min = 0,
-			Max = int.MaxValue,
+			Range = .. int.MaxValue,
 			OnValueChanged = newValue => counter.Number = newValue,
 		};
 		

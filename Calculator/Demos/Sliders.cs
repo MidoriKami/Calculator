@@ -34,11 +34,8 @@ public static class Sliders {
 			Size = new Vector2(300.0f, 32.0f),
 			IsVisible = true,
 
-			// Minimum value to allow
-			Min = 5,
-
-			// Maximum value to allow
-			Max = 30,
+			// Range of values to allow
+			Range = 5 .. 30,
 
 			// Event that is called when the value changes
 			OnValueChanged = newValue => textNode.String = $"Value: {newValue}",

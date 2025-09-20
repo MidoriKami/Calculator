@@ -102,7 +102,7 @@ public static class Images {
 			Size = new Vector2(64.0f, 64.0f),
 			
 			// Mode 2 will stretch the parts to fit our current size
-			WrapMode = 2,
+			WrapMode = WrapMode.Stretch,
 			
 			// Clear image flags, by default autofit is set which will stretch the entire texture over our node, this is not what we want here
 			ImageNodeFlags = 0,
@@ -150,7 +150,7 @@ public static class Images {
 			IsVisible = true,
 			
 			// Mode 2 will stretch the parts to fit our current size
-			WrapMode = 2,
+			WrapMode = WrapMode.Stretch,
 
 			// Disable auto-fit, and other flags
 			ImageNodeFlags = 0,
