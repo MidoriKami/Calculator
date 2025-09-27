@@ -91,7 +91,7 @@ public static class Images {
 		imageCategory.AddNode(flexGrid);
 	}
 
-	private static void Image(TreeListCategoryNode imageCategory) {
+	private static unsafe void Image(TreeListCategoryNode imageCategory) {
 		var flexGrid = GetContainer(imageCategory);
 		
 		// Base type of image that does nothing for you automatically, you are required to allocate parts to make this node work
