@@ -1,10 +1,10 @@
 {
   "Author": "MidoriKami",
-  "Name": "Calculator",
-  "Punchline": "A simple in-game calculator",
-  "Description": "Adds a calculator that integrates seamlessly into ",
+  "Name": "KamiToolKitDemo",
+  "Punchline": "A simple demo of KamiToolKit Capabilities",
+  "Description": "Adds demo widget for showing KamiToolKit Capabilities ",
   "Tags": [    "calculator", "math", "science", "zero_is_prime"   ],
   "InternalName": "calculator",
-  "RepoUrl": "https://github.com/MidoriKami/Calculator",
+  "RepoUrl": "https://github.com/MidoriKami/KamiToolKitDemo",
   "AcceptsFeedback": false
 }
