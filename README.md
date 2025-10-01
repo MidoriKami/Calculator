@@ -1,4 +1,4 @@
-# Calculator
+# KamiToolKitDemo
 
 This project is a proof of concept plugin for FFXIV.
 
