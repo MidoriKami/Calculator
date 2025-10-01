@@ -6,7 +6,7 @@ using KamiToolKit.Classes;
 using KamiToolKit.NodeParts;
 using KamiToolKit.Nodes;
 
-namespace Calculator.Demos;
+namespace KamiToolKitDemo.Demos;
 
 public static class Images {
 	private static HorizontalFlexNode GetContainer(TreeListCategoryNode treeListCategoryNode) => new() {

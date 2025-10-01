@@ -4,7 +4,7 @@ using KamiToolKit;
 using KamiToolKit.Nodes;
 using KamiToolKit.Nodes.TabBar;
 
-namespace Calculator.Demos;
+namespace KamiToolKitDemo.Demos;
 
 public static class TabBars {
 	private static NativeController NativeController => Services.NativeController;

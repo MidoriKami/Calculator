@@ -2,7 +2,7 @@
 using KamiToolKit.Addon;
 using KamiToolKit.Nodes;
 
-namespace Calculator.Demos;
+namespace KamiToolKitDemo.Demos;
 
 public class AddonWidgetDemo : NativeAddon {
 	

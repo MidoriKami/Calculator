@@ -3,7 +3,7 @@ using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
 
-namespace Calculator.Demos;
+namespace KamiToolKitDemo.Demos;
 
 public static class CheckBoxes {
 	private static HorizontalFlexNode GetContainer(TreeListCategoryNode treeListCategoryNode) => new() {

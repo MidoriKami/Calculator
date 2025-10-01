@@ -2,7 +2,7 @@
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiToolKit.Nodes;
 
-namespace Calculator.Demos;
+namespace KamiToolKitDemo.Demos;
 
 public static class Texts {
 	public static void TextDemo(TreeListCategoryNode treeListCategoryNode) {

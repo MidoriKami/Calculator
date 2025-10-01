@@ -1,15 +1,15 @@
 ﻿<Project Sdk="Dalamud.NET.Sdk/13.0.0">
     <PropertyGroup>
-        <PackageProjectUrl>https://github.com/MidoriKami/Calculator.git</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/MidoriKami/KamiToolKitDemo.git</PackageProjectUrl>
         <Version>1.0.0.0</Version>
     </PropertyGroup>
 
     <ItemGroup>
-        <Content Include="..\Calculator\assets\ff14_midorikami._no_BG.png">
+        <Content Include="..\KamiToolKitDemo\assets\ff14_midorikami._no_BG.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <Visible>false</Visible>
         </Content>
-        <Content Include="..\Calculator\assets\niko-oneshot.gif">
+        <Content Include="..\KamiToolKitDemo\assets\niko-oneshot.gif">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <Visible>false</Visible>
         </Content>

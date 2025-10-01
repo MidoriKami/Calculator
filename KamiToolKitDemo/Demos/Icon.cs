@@ -6,7 +6,7 @@ using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
 using Lumina.Excel.Sheets;
 
-namespace Calculator.Demos;
+namespace KamiToolKitDemo.Demos;
 
 public static class Icons {
 	private static HorizontalFlexNode GetContainer(TreeListCategoryNode treeListCategoryNode) => new() {

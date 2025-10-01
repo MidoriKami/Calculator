@@ -4,7 +4,7 @@ using KamiToolKit.Classes;
 using KamiToolKit.Nodes;
 using KamiToolKit.Nodes.Slider;
 
-namespace Calculator.Demos;
+namespace KamiToolKitDemo.Demos;
 
 public static class Sliders {
 	private static HorizontalFlexNode GetContainer(TreeListCategoryNode treeListCategoryNode) => new() {

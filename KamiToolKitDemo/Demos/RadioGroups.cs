@@ -1,6 +1,6 @@
 ﻿using KamiToolKit.Nodes;
 
-namespace Calculator.Demos;
+namespace KamiToolKitDemo.Demos;
 
 public static class RadioGroups {
 
